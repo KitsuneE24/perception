@@ -1,26 +1,55 @@
-# Illustrations — representation
+# Perception
 
-Ce dossier est prévu pour accueillir des illustrations optionnelles.
-Les photos des personnes sont chargées directement depuis Wikimedia Commons (domaine public) via les URLs définies dans `data.js`.
+Livre pop-up numérique interactif — HTML / CSS / JavaScript.
 
-## Photos utilisées dans l'œuvre
+Une œuvre sur la perception des femmes dans l'espace public, à travers quatre parcours réels, quatre époques, quatre domaines.
 
-| Personne | Description | Source |
-|----------|-------------|--------|
-| Marie Curie | Portrait, vers 1900 | Wikimedia Commons — domaine public |
-| Jeanne Chauvin | Portrait, première avocate plaidante en France | Wikimedia Commons — domaine public |
-| Kathrine Switzer | Dossard 261, marathon de Boston, 19 avril 1967 | Wikimedia Commons — Boston Herald / AP |
-| Aujourd'hui | Image personnelle — à intégrer | Renseigner `photoImg` dans `data.js`, entrée `id: 7` |
+## Structure
 
-## Pour ajouter votre propre photo (entrée "Aujourd'hui")
+| Spread | Contenu |
+|--------|---------|
+| 0 | Couverture — animation SVG pop-up (œil stylisé) |
+| 1–2 | Jeanne Chauvin · Droit · 1897 · France |
+| 3–4 | Marie Curie · Sciences · 1911 · Pologne |
+| 5–6 | Kathrine Switzer · Sport · 1967 · États-Unis |
+| 7–8 | Anne Hathaway · Internet · 2026 |
+| 9 | Finale — animation kintsugi |
 
-1. Déposez votre image dans ce dossier (ex. `aujourdhui.jpg`)
-2. Dans `data.js`, trouvez l'entrée `id: 7`
-3. Remplacez `photoImg: ''` par `photoImg: 'assets/images/aujourdhui.jpg'`
+Chaque bio occupe deux pages : photo plein-format (gauche) + citation biaisée et décodage (droite). Les spreads de transition utilisent des illustrations SVG pop-up animées.
 
-## Notes techniques
+## Fichiers
 
-- Toutes les photos historiques sont du domaine public (Wikimedia Commons).
-- Les URLs de chargement sont dans le tableau `pages` de `data.js` (champ `photoImg`).
-- Si une URL ne répond pas, la page reste lisible — le dégradé sombre sur fond de parchemin prend le relais.
-- Les photos sont affichées en `background-size: cover` sur la page gauche du spread bio, avec un dégradé sombre en superposition pour garantir la lisibilité du texte blanc.
+```
+index.html
+css/
+  base.css          — variables, reset, scène
+  book-intro.css    — animation 3D du livre à l'ouverture
+  flipbook.css      — turn.js, pages bio, couverture
+  finale.css        — animation kintsugi, page finale
+  navigation.css    — barre de dots et compteur
+js/
+  data.js           — SVG illustrations + tableau pages[]
+  book-intro.js     — ouverture du livre 3D
+  flipbook.js       — turn.js init, HTML des pages, navigation
+  finale.js         — animation kintsugi, lien "Recommencer"
+  turn.min.js       — bibliothèque flip-page (turn.js)
+assets/images/
+  Jeanne_Chauvin.jpg
+  marie-curie.jpg
+  kathrine-switzer1.jpg
+  anne_hathaway.jpg
+  favicon.ico
+```
+
+## Lancer le projet
+
+Ouvrir `index.html` dans un navigateur. Aucune dépendance à installer — jQuery et la police IM Fell English sont chargés via CDN.
+
+> Turn.js nécessite un serveur local pour fonctionner correctement (pas de `file://`). Utiliser Live Server (VS Code) ou `npx serve .`.
+
+## Sources
+
+- **Jeanne Chauvin** — RetroNews / BNF · Wikipedia FR · village-justice.com
+- **Marie Curie** — Nobel Prize archives · Nature (1911) · Wikiquote FR
+- **Kathrine Switzer** — ESPN · NPR · kathrineswitzer.com
+- **Photos** — Wikimedia Commons, domaine public (sauf `anne_hathaway.jpg`)

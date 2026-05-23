@@ -167,7 +167,7 @@
 }
 .cv-diam-gem {
   position: absolute;
-  font-size: 9px;
+  font-size: 13px;
   color: rgba(var(--spine-gold-rgb), 0.6);
   line-height: 1;
 }
@@ -195,7 +195,7 @@
 .cv-edition {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 9px;
+  font-size: 13px;
   color: rgba(var(--spine-gold-rgb), 0.45);
   letter-spacing: 1.5px;
   margin-top: 10px;

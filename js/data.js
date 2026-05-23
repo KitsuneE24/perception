@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /* ============================================================
    SVG ILLUSTRATIONS
@@ -181,9 +181,9 @@ const SVG_MIROIR = `<svg viewBox="0 0 200 200" width="172" height="172" xmlns="h
    3  Bio Jeanne Chauvin
    4  Transition Chauvin→Switzer
    5  Bio Kathrine Switzer
-   6  Transition Switzer→Aujourd'hui
-   7  Bio Aujourd'hui
-   8  Transition Aujourd'hui→Finale
+   6  Transition Anne Hathaway
+   7  Bio Anne Hathaway
+   8  Transition Anne Hathaway→Finale
    9  Finale
    ============================================================ */
 
@@ -195,35 +195,35 @@ const pages = [
     svgPopup: SVG_EYE
   },
 
-  /* 1 — BIO Marie Curie */
+  /* 1 — BIO Jeanne Chauvin */
   {
-    id: 1, type: 'bio', era: 'ancient',
-    year: '1867', domain: 'Sciences', location: 'Pologne', name: 'Marie Curie',
-    description: 'Physicienne et chimiste. Première femme Prix Nobel — deux fois, dans deux disciplines différentes.',
-    biasQuote: '« Nos traditions ne permettent pas d\'admettre une femme en notre Académie, si éminentes que soient ses qualités. »',
-    biasQuoteAttrib: '— Délibération de l\'Académie des sciences de Paris, 23 janvier 1911',
-    decode: 'Ce que ça dit : <strong>l\'exploit est réel, mais conditionnel.</strong> La surprise elle-même est le biais.',
-    photoImg: 'assets/images/marie-curie.jpg',
-    photoCaption: 'Maria Skłodowska, vers 1900'
-  },
-
-  /* 2 — TRANSITION Curie → Chauvin */
-  {
-    id: 2, type: 'transition', era: 'ancient',
-    svgLeft: SVG_CURIE,
-    svgRight: SVG_CHAUVIN
-  },
-
-  /* 3 — BIO Jeanne Chauvin */
-  {
-    id: 3, type: 'bio', era: 'transition',
-    year: '1903', domain: 'Droit', location: 'France', name: 'Jeanne Chauvin',
-    description: 'Juriste française. Première femme à obtenir le droit de plaider devant les tribunaux en France.',
-    biasQuote: '« L\'exercice de la profession d\'avocat est incompatible avec la nature de la femme. »',
-    biasQuoteAttrib: '— Cour d\'appel de Paris, arrêt du 15 novembre 1897',
-    decode: 'Ce que ça dit : <strong>quand le chemin n\'existe pas, certaines le créent.</strong> Il a fallu changer la loi, pas elle.',
+    id: 1, type: 'bio', era: 'transition',
+    year: '1897', domain: 'Droit', location: 'France', name: 'Jeanne Chauvin',
+    description: 'Elle a étudié le droit. Elle a voulu le plaider. On lui a dit non.<br>Elle a plaidé quand même.',
+    biasQuote: 'la profession d’avocat étant depuis toujours un office viril',
+    biasQuoteAttrib: '— Cour d’appel de Paris, 30 novembre 1897',
+    decode: '<b>Ce n’est pas un titre. C’est une porte.</b><br>En entrant dans ce prétoire, Chauvin ne demandait pas la permission d\'exister dans le droit — elle le faisait, là où aucune n\'avait osé avant. Et ce faisant, elle ne prouvait pas que c\'était possible : elle rendait absurde que ça ne l\'ait pas été.',
     photoImg: 'assets/images/Jeanne_Chauvin.jpg',
     photoCaption: 'Jeanne Chauvin, première avocate plaidante'
+  },
+
+  /* 2 — TRANSITION Chauvin → Curie*/
+  {
+    id: 2, type: 'transition', era: 'ancient',
+    svgLeft: SVG_CHAUVIN,
+    svgRight: SVG_CURIE
+  },
+
+  /* 3 — BIO Marie Curie*/
+  {
+    id: 3, type: 'bio', era: 'ancient',
+    year: '1911', domain: 'Sciences', location: 'Pologne', name: 'Marie Curie',
+    description: 'Elle ne cherchait pas à prouver qu’elle pouvait. Elle cherchait à comprendre le monde. Deux Nobel plus tard, la question ne se posait plus.',
+    biasQuote: 'there was, in its opinion, an immutable tradition against the election of women, which it seemed eminently wise to respect.',
+    biasQuoteAttrib: '— Institut de France, débat rapporté par Nature, 1911',
+    decode: '<b>L’Académie a voté. La tradition a prévalu. Curie a persévéré.</b><br>Il n’y a pas de réponse plus simple à donner à ceux qui ferment les portes : persévérer, jusqu’à ce que la preuve soit plus grande que le préjugé.',
+    photoImg: 'assets/images/marie-curie.jpg',
+    photoCaption: 'Maria Skłodowska, vers 1900'
   },
 
   /* 4 — TRANSITION Chauvin → Switzer */
@@ -237,34 +237,34 @@ const pages = [
   {
     id: 5, type: 'bio', era: 'modern',
     year: '1967', domain: 'Sport', location: 'États-Unis', name: 'Kathrine Switzer',
-    description: 'Athlète américaine. Première femme à courir officiellement le marathon de Boston.',
-    biasQuote: '« Fous le camp de ma course ! Rends-moi ces dossards ! »',
+    description: 'Dossard 261. Le directeur de course tente de l’arracher. Elle court. Cette image n’a pas vieilli.',
+    biasQuote: 'Get the hell out of my race and give me those numbers!',
     biasQuoteAttrib: '— Jock Semple, Boston Athletic Association, Marathon de Boston, 19 avril 1967',
-    decode: 'Ce que ça dit : <strong>quand les mots ne suffisent plus à exclure, le corps suit.</strong> Elle a couru. Elle est arrivée.',
+    decode: '<b>Une seule course. Une seule photo.</b><br>Et cette image a couru plus loin qu’elle — autour du monde, et dans le temps. Switzer a continué de se battre jusqu’en 1972, année où le marathon de Boston ouvre officiellement ses portes aux femmes. L’action vient toujours avant le droit.',
     photoImg: 'assets/images/kathrine-switzer1.jpg',
     photoCaption: 'Kathrine Switzer, dossard 261, Boston 1967'
   },
 
-  /* 6 — TRANSITION Switzer → Aujourd'hui */
+  /* 6 — TRANSITION Switzer → Anne Hathaway */
   {
     id: 6, type: 'transition', era: 'modern',
     svgLeft: SVG_SWITZER,
     svgRight: SVG_MIROIR
   },
 
-  /* 7 — BIO Aujourd'hui */
+  /* 7 — BIO Anne Hathaway */
   {
     id: 7, type: 'bio', era: 'contemporary',
-    year: '2025', domain: 'Cinéma', location: 'États-Unis', name: 'Anne Hathaway',
-    description: 'Elles ont choisi l\'action dans un monde qui attend le silence.',
-    biasQuote: '« Elle est talentueuse, c\'est sûr. Mais elle en fait trop. Elle agace. »',
-    biasQuoteAttrib: '— Phénomène médiatique « Hathahate », presse américaine, 2012–2013',
-    decode: 'Ce que ça dit : <strong>quand une femme excelle avec passion, on appelle ça de l\'excès.</strong> Chez un homme, on appelle ça de l\'ambition.',
+    year: '2026', domain: 'Internet', location: '', name: 'Anne Hathaway',
+    description: 'La résistance a changé de forme. Ce qu’on essaie d’éteindre aujourd’hui, c’est une voix. <br>«they chose action in a world that expects silence.»',
+    biasQuote: 'our choosing to celebrate today does not signal that we are here to accommodate injustice. No, our celebration today affirms our determination to outlast it.',
+    biasQuoteAttrib: '— ONU – Journée internationale des droits des femmes,2026',
+    decode: '<b>L’espace public n’est plus seulement une salle d’audience ou un starting-block.</b><br> Il est partout — et partout, il se rejoue la même question : est-ce que cette présence est légitime ? Est-ce que cette voix a le droit d’être là ? La réponse se forge encore. Grâce à elles. Grâce à nous.',
     photoImg: 'assets/images/anne_hathaway.jpg',
-    photoCaption: 'Anne Hathaway · Journée internationale des droits des femmes, 2025'
+    photoCaption: 'Journée internationale des droits des femmes, 2026'
   },
 
-  /* 8 — TRANSITION Aujourd'hui → Finale */
+  /* 8 — TRANSITION Anne Hathaway → Finale */
   {
     id: 8, type: 'transition', era: 'contemporary',
     svgLeft: SVG_MIROIR,

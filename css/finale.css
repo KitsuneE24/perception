@@ -5,7 +5,7 @@
 .finale-message        { font-family: var(--font-serif); font-style: italic; font-size: 22px; color: var(--ink-brown); line-height: 1.7; margin-bottom: 24px; }
 .finale-names          { font-family: var(--font-serif); font-size: 12px; color: var(--ink-brown-light); line-height: 2.1; margin-bottom: 20px; }
 .finale-central-message { font-family: var(--font-serif); font-size: 14px; color: var(--ink-brown); line-height: 1.8; padding: 16px 18px; border: 1px solid rgba(var(--kintsugi-gold-rgb), 0.35); background: rgba(var(--kintsugi-gold-rgb), 0.06); border-radius: 2px; }
-.recommencer-link { display: block; text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: 11px; color: var(--ink-brown-light); cursor: pointer; text-decoration: underline; opacity: 0.6; transition: opacity 0.2s; background: none; border: none; padding: 0; width: 100%; }
+.recommencer-link { display: block; text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: 15px; color: var(--ink-brown-light); cursor: pointer; text-decoration: underline; opacity: 0.6; transition: opacity 0.2s; background: none; border: none; padding: 0; width: 100%; }
 .recommencer-link:hover { opacity: 1; }
 
 .finale-right      { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 24px; position: relative; }

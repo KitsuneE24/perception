@@ -75,7 +75,7 @@
 .cover-border        { position: absolute; inset: 20px; border: 1px solid rgba(var(--spine-gold-rgb), 0.3); pointer-events: none; }
 .cover-border-inner  { position: absolute; inset: 26px; border: 1px solid rgba(var(--spine-gold-rgb), 0.15); pointer-events: none; }
 .cover-content       { position: relative; z-index: 1; padding: 40px 30px; }
-.cover-ornament      { font-size: 11px; letter-spacing: 3px; color: rgba(var(--spine-gold-rgb), 0.5); margin-bottom: 20px; }
+.cover-ornament      { font-size: 15px; letter-spacing: 3px; color: rgba(var(--spine-gold-rgb), 0.5); margin-bottom: 20px; }
 .cover-title-big     { font-family: var(--font-serif); font-size: 48px; color: var(--spine-gold); letter-spacing: 6px; text-shadow: 0 2px 12px rgba(var(--black-rgb), 0.5); }
 .cover-tagline       { font-family: var(--font-serif); font-style: italic; font-size: 13px; color: rgba(var(--spine-gold-rgb), 0.65); margin-top: 16px; line-height: 1.9; }
 .cover-diamond-wrap  {
@@ -84,7 +84,7 @@
   display: flex; align-items: center; justify-content: center;
   margin: 8px auto;
 }
-.cover-diam-gem      { position: absolute; font-size: 10px; color: rgba(var(--spine-gold-rgb), 0.65); line-height: 1; }
+.cover-diam-gem      { position: absolute; font-size: 14px; color: rgba(var(--spine-gold-rgb), 0.65); line-height: 1; }
 .cover-gem-top       { top: 0;    left: 50%; transform: translateX(-50%); }
 .cover-gem-bottom    { bottom: 0; left: 50%; transform: translateX(-50%); }
 .cover-gem-left      { left: 0;   top: 50%;  transform: translateY(-50%); }
@@ -101,7 +101,7 @@
 .cover-grimoire-tag  {
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 10px;
+  font-size: 14px;
   color: rgba(var(--spine-gold-rgb), 0.45);
   letter-spacing: 2px;
   margin-top: 16px;
@@ -111,26 +111,40 @@
 /* Cover right page */
 .cover-right       { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 32px; text-align: center; }
 .cover-right-quote { font-family: var(--font-serif); font-style: italic; font-size: 20px; color: var(--ink-brown); line-height: 1.85; max-width: 280px; margin-top: 20px; }
-.cover-right-sub   { font-size: 10px; color: var(--ink-brown-light); margin-top: 12px; letter-spacing: 1px; }
+.cover-right-sub   { font-size: 14px; color: var(--ink-brown-light); margin-top: 12px; letter-spacing: 1px; }
 
 /* ============================================================
    BIO PAGE
    ============================================================ */
 .bio-page { overflow: hidden; }
 
+.bio-year-shadow {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  font-family: var(--font-serif);
+  font-size: 200px;
+  line-height: 1;
+  letter-spacing: -6px;
+  color: rgb(0, 0, 0, 0.1);
+  z-index: 3;
+  pointer-events: none;
+  user-select: none;
+}
+
 .bio-text-block {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   width: 100%;
-  padding: 65px 20px 20px;
+  padding: 70px 20px 20px;
   background: linear-gradient(
     to top,
     rgb(var(--black-rgb))            0%,
-    rgba(var(--black-rgb), 0.95)    20%,
-    rgba(var(--black-rgb), 0.85)    30%,
-    rgba(var(--black-rgb), 0.65)    50%,
-    rgba(var(--black-rgb), 0.35)    70%,
-    rgba(var(--black-rgb), 0.12)    85%,
+    rgba(var(--black-rgb), 0.90)    20%,
+    rgba(var(--black-rgb), 0.95)    30%,
+    rgba(var(--black-rgb), 0.85)    50%,
+    rgba(var(--black-rgb), 0.65)    70%,
+    rgba(var(--black-rgb), 0.35)    85%,
     transparent                     100%
   );
   z-index: 2;
@@ -138,7 +152,7 @@
 }
 .bio-name-tag {
   font-family: var(--font-sans);
-  font-size: 9px; letter-spacing: 1.5px;
+  font-size: 13px; letter-spacing: 1.5px;
   color: rgba(var(--spine-gold-rgb), 0.75);
   text-transform: uppercase;
   margin-bottom: 6px;
@@ -153,13 +167,12 @@
 }
 .bio-desc {
   font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 12px;
+  font-size: 13px;
   color: rgba(var(--parchment-ancient-rgb), 0.85);
   line-height: 1.7;
 }
 .bio-img-credit {
-  font-size: 8px;
+  font-size: 12px;
   color: rgba(var(--spine-gold-rgb), 0.5);
   margin-top: 8px;
 }
@@ -170,7 +183,7 @@
 }
 .bio-right-tag {
   font-family: var(--font-sans);
-  font-size: 9px; letter-spacing: 1.8px;
+  font-size: 13px; letter-spacing: 1.8px;
   text-transform: uppercase;
   color: var(--ink-brown-light);
   margin-bottom: 14px;
@@ -187,7 +200,7 @@
 }
 .bio-quote-attrib {
   font-family: var(--font-sans);
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.5px;
   color: var(--ink-brown-light);
   margin-bottom: 16px;

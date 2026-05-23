@@ -1,9 +1,9 @@
 /* ============================================================
    NAVIGATION
    ============================================================ */
-#nav-bar       { display: flex; align-items: center; justify-content: center; padding: 0 14px 10px; flex-shrink: 0; }
+#nav-bar       { display: flex; align-items: center; justify-content: center; padding: 10px 14px 10px; flex-shrink: 0; }
 .nav-center    { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.spread-counter { font-size: 10px; font-family: var(--font-sans); color: rgba(var(--spine-gold-rgb), 0.6); letter-spacing: 1px; }
+.spread-counter { font-size: 14px; font-family: var(--font-sans); color: rgba(var(--spine-gold-rgb), 0.6); letter-spacing: 1px; }
 .dot-indicators { display: flex; gap: 6px; align-items: center; }
 .dot-group      { display: flex; gap: 3px; align-items: center; }
 .dot-group-sep  { width: 1px; height: 10px; background: rgba(var(--spine-gold-rgb), 0.25); margin: 0 2px; }

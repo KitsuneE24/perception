@@ -21,7 +21,6 @@
   --ink-brown-light: #9a7a52;
   --ink-brown-deep:  #3a2010;
   --ink-crack:       #2a1a0a;
-  --ink-brown-rgb:   90, 58, 26;
 
   /* Parchment */
   --parchment-ancient:      #f0e6cc;
@@ -45,8 +44,6 @@
 
   /* Era accent dots */
   --terracotta:    #b8855a;
-  --accent-purple: #9B5EA0;
-  --accent-blue:   #5a7a9a;
 
   /* Fonts */
   --font-serif: 'IM Fell English', Georgia, serif;

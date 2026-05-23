@@ -27,12 +27,12 @@ const eraColors = {
    DOTS
    ============================================================ */
 const DOT_DEFS = [
-  { label: 'Couverture',   ids: [0],    era: 'cover' },
-  { label: 'Marie Curie',  ids: [1, 2], era: 'ancient' },
-  { label: 'J. Chauvin',   ids: [3, 4], era: 'transition-era' },
-  { label: 'K. Switzer',   ids: [5, 6], era: 'modern' },
-  { label: 'Aujourd\'hui', ids: [7, 8], era: 'contemporary' },
-  { label: 'Épilogue',     ids: [9],    era: 'finale' },
+  { label: 'Couverture',   ids: [0]    },
+  { label: 'J. Chauvin',   ids: [1, 2] },
+  { label: 'Marie Curie',  ids: [3, 4] },
+  { label: 'K. Switzer',   ids: [5, 6] },
+  { label: 'Aujourd\'hui', ids: [7, 8] },
+  { label: 'Épilogue',     ids: [9]    },
 ];
 
 function buildDots() {
@@ -47,7 +47,7 @@ function buildDots() {
     grp.className = 'dot-group';
     g.ids.forEach(id => {
       const d = document.createElement('div');
-      d.className = `dot ${g.era}`;
+      d.className = 'dot';
       d.title = g.label;
       if (id === currentIndex) d.classList.add('active');
       d.addEventListener('click', () => navigateTo(id));
@@ -176,15 +176,32 @@ function initTurnJs() {
     setTimeout(function() { $el.addClass('visible'); }, i * 200);
   });
 
-  // Click right half → next, click left half → previous
-  // Track pointer-down position so drag releases don't trigger a turn
-  var _ptrDownX = 0, _ptrDownY = 0;
+  // Click right half → next, click left half → previous.
+  // If the mousedown was inside a turn.js corner area, skip the click handler
+  // entirely so turn.js can own the interaction (prevents double-turning).
+  var _ptrDownX = 0, _ptrDownY = 0, _cornerDown = false;
+
+  function _isFlipCorner(pageX, pageY) {
+    var $fb = $('#flipbook');
+    var off = $fb.offset();
+    var x   = pageX - off.left;
+    var y   = pageY - off.top;
+    var cs  = 100;             // must match turn.js cornerSize default
+    var w   = $fb.width();
+    var h   = $fb.height();
+    if (y > cs && y < h - cs) return false; // not near top/bottom edge
+    if (x < w / 2) return x <= cs;          // left page: left corners (bl, tl)
+    return x >= w - cs;                      // right page: right corners (br, tr)
+  }
+
   $('#flipbook')
     .on('pointerdown', function(e) {
-      _ptrDownX = e.clientX;
-      _ptrDownY = e.clientY;
+      _ptrDownX   = e.clientX;
+      _ptrDownY   = e.clientY;
+      _cornerDown = _isFlipCorner(e.pageX, e.pageY);
     })
     .on('click', function(e) {
+      if (_cornerDown) return; // turn.js owns corner click/drag — don't double-turn
       if (Math.abs(e.clientX - _ptrDownX) > 8 ||
           Math.abs(e.clientY - _ptrDownY) > 8) return;
       var half = $(this).width() / 2;
@@ -263,13 +280,14 @@ function finaleLeftHTML() {
     <div class="finale-left">
       <div class="finale-message">La perception se forge.<br>Grâce à elles. Grâce à nous.</div>
       <div class="finale-names">
-        Marie Curie · Sciences · 1867<br>
-        Jeanne Chauvin · Droit · 1903<br>
+        Jeanne Chauvin · Droit · 1897<br>
+        Marie Curie · Sciences · 1911<br>
         Kathrine Switzer · Sport · 1967<br>
+        Anne Hathaway · Internet · 2026<br>
         <em>Et toutes celles dont on n'a pas encore écrit le nom.</em>
       </div>
       <div class="finale-central-message">
-        Chaque perception qui change<br>marque un tournant.
+        Ces exemples montrent une évolution réelle : les femmes ont progressivement accédé à des espaces autrefois fermés dans le droit, la science ou le sport. Les formes de résistance n’ont pas disparu, mais elles ont changé de nature, accompagnant l’ouverture progressive des institutions et des pratiques sociales.
       </div>
       <div class="recommencer-link" id="recommencer-link">↺ Recommencer</div>
     </div>`;
@@ -302,8 +320,9 @@ function coverRightHTML(page) {
 
 function bioRightHTML(page) {
   return `
+    <div class="bio-year-shadow">${page.year}</div>
     <div class="bio-right-content">
-      <p class="bio-right-tag">Ce qu'on lui a dit</p>
+      <p class="bio-right-tag">Perceptions et réactions</p>
       <blockquote class="bio-quote">${page.biasQuote}</blockquote>
       ${page.biasQuoteAttrib ? `<p class="bio-quote-attrib">${page.biasQuoteAttrib}</p>` : ''}
       <p class="bio-decode">${page.decode}</p>
