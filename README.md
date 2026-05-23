@@ -52,4 +52,4 @@ Ouvrir `index.html` dans un navigateur. Aucune dépendance à installer — jQue
 - **Jeanne Chauvin** — RetroNews / BNF · Wikipedia FR · village-justice.com
 - **Marie Curie** — Nobel Prize archives · Nature (1911) · Wikiquote FR
 - **Kathrine Switzer** — ESPN · NPR · kathrineswitzer.com
-- **Photos** — Wikimedia Commons, domaine public (sauf `anne_hathaway.jpg`)
+- **Anne Hathaway** - https://youtu.be/uidGNIp-nn4?t=174
