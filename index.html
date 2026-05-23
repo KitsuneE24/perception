@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/blasten/turn.js@master/turn.js"></script>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -52,7 +54,7 @@
         <!-- volume badge -->
         <div class="cv-volume-badge">1</div>
         <!-- edition banner -->
-        <div class="cv-edition">✦ Une Œuvre · 2026 ✦</div>
+        <div class="cv-edition">✦ 2026 ✦</div>
       </li>
       <li></li>
     </ul>
@@ -77,28 +79,14 @@
        FLAT BOOK (main reading experience)
        ==================================================== -->
   <div id="book-flat">
+    <div class="book-container" id="book-body">
+      <div id="flipbook"></div>
+    </div>
+
     <div id="nav-bar">
       <div class="nav-center">
         <div class="spread-counter" id="spread-counter">1 / 14</div>
         <div class="dot-indicators" id="dot-indicators"></div>
-      </div>
-    </div>
-
-    <div class="book-container" id="book-body" data-era="ancient">
-      <div class="page-left" id="page-left">
-        <div class="page-inner" id="page-left-inner"></div>
-      </div>
-
-      <div class="page-right" id="page-right">
-        <div class="page-inner" id="page-right-inner"></div>
-      </div>
-
-      <!-- ================================================
-           PAGE TURN OVERLAY — realistic flipbook effect
-           ================================================ -->
-      <div id="page-turn-wrap">
-        <div class="turn-page-face turn-front" id="flip-front"></div>
-        <div class="turn-page-face turn-back"  id="flip-back"></div>
       </div>
     </div>
   </div>

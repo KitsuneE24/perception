@@ -109,13 +109,6 @@ html, body {
   border: 1px solid rgba(212,169,106,0.35);
   pointer-events: none; z-index: 0;
 }
-.bk-hardcover-front > li:first-child::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(45deg, transparent, transparent 18px,
-    rgba(255,255,255,0.025) 18px, rgba(255,255,255,0.025) 19px);
-  pointer-events: none;
-}
 .bk-hardcover-front > li:last-child {
   background: #243424;
   transform: rotateY(180deg) translateZ(3px);
@@ -452,14 +445,23 @@ html, body {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   width: 100%;
-  padding: 20px 22px 22px;
-  background: linear-gradient(to top, rgba(10,20,12,0.88) 20%, rgba(10,20,12,0.6) 80%, transparent 100%);
+  padding: 60px 20px 20px;
+  background: linear-gradient(
+    to top,
+    rgb(0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.95) 15%,
+    rgba(0, 0, 0, 0.85) 30%,
+    rgba(0, 0, 0, 0.65) 50%,
+    rgba(0, 0, 0, 0.35) 70%,
+    rgba(0, 0, 0, 0.12) 85%,
+    transparent 100%
+  );
   z-index: 2;
   color: #f0e6cc;
 }
 .bio-name-tag {
   font-family: var(--font-sans);
-  font-size: 9px; letter-spacing: 1.5px;
+  font-size: 9px; letter-spacing: 1.5px;  
   color: rgba(212,169,106,0.75);
   text-transform: uppercase;
   margin-bottom: 6px;
@@ -534,10 +536,7 @@ html, body {
   height: 100%; text-align: center;
   background: var(--cover-color); position: relative; overflow: hidden;
 }
-.cover-texture {
-  position: absolute; inset: 0; pointer-events: none;
-  background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 21px);
-}
+
 .cover-border { position: absolute; inset: 20px; border: 1px solid rgba(212,169,106,0.3); pointer-events: none; }
 .cover-content { position: relative; z-index: 1; padding: 40px 30px; }
 .cover-ornament { font-size: 11px; letter-spacing: 3px; color: rgba(212,169,106,0.5); margin-bottom: 20px; }
@@ -634,13 +633,12 @@ html, body {
 .finale-message { font-family: var(--font-serif); font-style: italic; font-size: 22px; color: var(--ink-brown); line-height: 1.7; margin-bottom: 24px; }
 .finale-names { font-family: var(--font-serif); font-size: 12px; color: var(--ink-brown-light); line-height: 2.1; margin-bottom: 20px; }
 .finale-central-message { font-family: var(--font-serif); font-size: 14px; color: var(--ink-brown); line-height: 1.8; padding: 16px 18px; border: 1px solid rgba(200,146,42,0.35); background: rgba(200,146,42,0.06); border-radius: 2px; }
-.recommencer-link { display: block; text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: 11px; color: var(--ink-brown-light); cursor: pointer; text-decoration: underline; opacity: 0.6; transition: opacity 0.2s; }
+.recommencer-link { display: block; text-align: center; margin-top: 28px; font-family: var(--font-serif); font-style: italic; font-size: 11px; color: var(--ink-brown-light); cursor: pointer; text-decoration: underline; opacity: 0.6; transition: opacity 0.2s; background: none; border: none; padding: 0; width: 100%; }
 .recommencer-link:hover { opacity: 1; }
 
 .finale-right { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 24px; position: relative; }
 .kintsugi-container { position: relative; width: 200px; height: 275px; margin: 0 auto; }
 .kintsugi-book-cover { width: 200px; height: 275px; background: var(--cover-color); border-radius: 2px; position: relative; overflow: hidden; transition: filter 1.5s ease, opacity 1s ease; }
-.kintsugi-book-cover::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg, transparent, transparent 16px, rgba(255,255,255,0.02) 16px, rgba(255,255,255,0.02) 17px); }
 .kintsugi-book-cover::after { content: 'Le Regard'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-serif); font-size: 24px; color: rgba(212,169,106,0.8); letter-spacing: 4px; pointer-events: none; }
 .kintsugi-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 .kintsugi-crack { stroke: #2a1a0a; stroke-width: 1.5; fill: none; stroke-dasharray: 300; stroke-dashoffset: 300; stroke-linecap: round; transition: stroke 1.2s ease, filter 1.2s ease; }
@@ -656,7 +654,7 @@ html, body {
 /* ============================================================
    NAVIGATION
    ============================================================ */
-#nav-bar { display: flex; align-items: center; justify-content: center; padding: 10px 14px 0; flex-shrink: 0; }
+#nav-bar { display: flex; align-items: center; justify-content: center; padding: 0 14px 10px; flex-shrink: 0; }
 .nav-center { display: flex; flex-direction: column; align-items: center; gap: 6px; }
 .spread-counter { font-size: 10px; font-family: var(--font-sans); color: rgba(212,169,106,0.6); letter-spacing: 1px; }
 .dot-indicators { display: flex; gap: 6px; align-items: center; }
@@ -690,3 +688,150 @@ html, body {
 }
 
 .hidden { display: none !important; }
+
+/* ============================================
+   REALISTIC PAGE CURL — turn.js-style effect
+   ============================================ */
+
+#page-turn-wrap {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  z-index: 20;
+  pointer-events: none;
+  transform-style: preserve-3d;
+  perspective: 2000px;
+}
+
+/* The flipping page — front face (current right page content) */
+#flip-front {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+  backface-visibility: hidden;
+  z-index: 22;
+  pointer-events: none;
+  overflow: hidden;
+  transition: none;
+  /* paper-like gradient on the face during curl */
+  filter: none;
+}
+
+/* The back of the flipping page (next page content, mirrored) */
+#flip-back {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  transform-origin: left center;
+  transform: rotateY(180deg);
+  backface-visibility: hidden;
+  z-index: 21;
+  pointer-events: none;
+  overflow: hidden;
+  /* slight paper-gray tint on the back */
+  background: #f0ece4;
+}
+
+/* Shadow that falls on the left page during curl */
+#curl-shadow-left {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(to left, rgba(0,0,0,0.25) 0%, transparent 100%);
+  opacity: 0;
+  z-index: 18;
+  pointer-events: none;
+  transition: opacity 0.05s linear;
+}
+
+/* Shadow on the front face of the curl (paper thickness illusion) */
+#curl-shadow-face {
+  position: absolute;
+  top: 0; right: 0;
+  width: 30%; height: 100%;
+  background: linear-gradient(to left, rgba(0,0,0,0.15) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 23;
+  opacity: 0;
+}
+
+/* Corner hover hint — ONLY on hover */
+#page-right::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 0 0 0;
+  border-color: transparent transparent rgba(0,0,0,0.13) transparent;
+  transition: border-width 0.25s ease;
+  pointer-events: none;
+  z-index: 25;
+}
+#page-right:hover::after {
+  border-width: 0 0 60px 60px;
+}
+
+/* Page right must be relative for the ::after to position correctly */
+#page-right {
+  position: relative;
+  overflow: visible;
+}
+
+/* Corner hover hint — bottom-left of left page (go back) */
+#page-left::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 0;
+  border-style: solid;
+  border-width: 0 0 0 0;
+  border-color: transparent transparent rgba(0,0,0,0.13) transparent;
+  transition: border-width 0.25s ease;
+  pointer-events: none;
+  z-index: 25;
+}
+#page-left:hover::after {
+  border-width: 0 60px 60px 0;
+}
+
+#page-left {
+  position: relative;
+  overflow: visible;
+}
+
+/* Animated completion class */
+#page-turn-wrap.flip-completing #flip-front,
+#page-turn-wrap.flip-completing #flip-back {
+  transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Snap-back class */
+#page-turn-wrap.flip-snapping #flip-front,
+#page-turn-wrap.flip-snapping #flip-back {
+  transition: transform 0.32s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ============================================================
+   TURN.JS FLIPBOOK
+   ============================================================ */
+.book-container {
+  overflow: visible;
+}
+
+#flipbook {
+  width: 900px;
+  height: 600px;
+  margin: 0 auto;
+  align-self: center;
+}
+
+#flipbook .page {
+  width: 450px;
+  height: 600px;
+  overflow: hidden;
+}

@@ -4,7 +4,6 @@
    STATE
    ============================================================ */
 let currentIndex   = 0;
-let isAnimating    = false;
 let kintsugiPlayed = false;
 
 /* ============================================================
@@ -13,14 +12,8 @@ let kintsugiPlayed = false;
 const bookIntro   = document.getElementById('book-intro');
 const openBtn     = document.getElementById('open-btn');
 const bookFlat    = document.getElementById('book-flat');
-const bookBody    = document.getElementById('book-body');
-const pageLeftInn = document.getElementById('page-left-inner');
-const pageRightInn= document.getElementById('page-right-inner');
 const spreadCtr   = document.getElementById('spread-counter');
 const dotContainer= document.getElementById('dot-indicators');
-const flipWrap    = document.getElementById('page-turn-wrap');
-const flipFront   = document.getElementById('flip-front');
-const flipBack    = document.getElementById('flip-back');
 
 /* ============================================================
    ERA COLORS
@@ -40,15 +33,13 @@ function openBook() {
   openBtn.classList.add('hidden');
   bookIntro.classList.add('opening');
 
-  // Prepare flat book immediately so it's ready behind the 3D animation
   buildDots();
-  bookBody.dataset.era = 'ancient';
-  renderSpread(0);
 
-  // Reveal flat book while pages are still fanning (front cover finishes at ~0.9s)
-  setTimeout(() => { bookFlat.classList.add('visible'); }, 900);
+  setTimeout(() => {
+    bookFlat.classList.add('visible');
+    initTurnJs();
+  }, 900);
 
-  // Fade out 3D book after all page animations finish (~1.95s)
   setTimeout(() => { bookIntro.classList.add('done'); }, 2100);
   setTimeout(() => { bookIntro.style.display = 'none'; }, 2650);
 }
@@ -102,275 +93,119 @@ function updateDots() {
 /* ============================================================
    NAV
    ============================================================ */
-function updateNav() {
-  spreadCtr.textContent = `${currentIndex + 1} / ${pages.length}`;
-  updateDots();
-}
-
 function navigateTo(idx) {
-  if (isAnimating || idx === currentIndex) return;
-  const dir  = idx > currentIndex ? 'forward' : 'back';
-  const from = currentIndex;
-  currentIndex = idx;
-  collapsePopups(() => flipPage(dir, from, idx));
+  // +2 because position 1 is the blank front-cover placeholder
+  $('#flipbook').turn('page', idx * 2 + 2);
 }
 
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', function(e) {
   if (!bookFlat.classList.contains('visible')) return;
-  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { if (currentIndex < pages.length - 1) navigateTo(currentIndex + 1); }
-  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { if (currentIndex > 0) navigateTo(currentIndex - 1); }
+  if (e.key === 'ArrowRight') $('#flipbook').turn('next');
+  if (e.key === 'ArrowLeft')  $('#flipbook').turn('previous');
 });
 
 /* ============================================================
-   DRAG-TO-FLIP
+   TURN.JS INIT
    ============================================================ */
-let drag = null;
+function initTurnJs() {
+  var pageHtml = [];
 
-function prepareDrag(e, dir) {
-  if (isAnimating) return;
-  if (e.target.closest('a, button')) return;
-  if (dir === 'forward' && currentIndex >= pages.length - 1) return;
-  if (dir === 'back'    && currentIndex <= 0) return;
-  drag = {
-    dir,
-    fromIdx:  currentIndex,
-    toIdx:    dir === 'forward' ? currentIndex + 1 : currentIndex - 1,
-    bookRect: document.querySelector('.book-container').getBoundingClientRect(),
-    startX:   e.clientX,
-    startY:   e.clientY,
-    active:   false
-  };
-}
+  // Slot 1: blank placeholder (turn.js front-cover, never shown)
+  pageHtml.push('<div class="page" style="background:#1c4632"></div>');
+  // Slot 2: blank dark green — left page of the opening spread
+  pageHtml.push('<div class="page" style="background:#1c4632"></div>');
+  // Slot 3: cover-right quote page — right page of the opening spread
+  pageHtml.push(
+    '<div class="page" style="background:' + (eraColors[pages[0].era] || '#f0e6cc') + '">' +
+    buildRightHTML(pages[0]) + '</div>'
+  );
 
-function activateDrag() {
-  const { dir, fromIdx, toIdx } = drag;
-  const fromPage  = pages[fromIdx];
-  const toPage    = pages[toIdx];
-  const fromColor = eraColors[fromPage.era] || '#f0e6cc';
-  const toColor   = eraColors[toPage.era]   || '#f0e6cc';
+  // Slots 4+ : all content spreads from pages[1] onwards
+  pages.slice(1).forEach(function(page) {
+    var bgColor = eraColors[page.era] || '#f0e6cc';
 
-  if (dir === 'forward') {
-    setPlainFlipFace(flipFront, fromColor, pageRightInn.innerHTML);
-    if (toPage.type === 'bio' && toPage.photoImg) setBioFlipFace(flipBack, toPage);
-    else setPlainFlipFace(flipBack, toColor, buildLeftHTML(toPage));
-    flipWrap.style.left = '50%';
-    flipWrap.style.width = '50%';
-    flipWrap.style.transformOrigin = 'left top';
-  } else {
-    if (fromPage.type === 'bio' && fromPage.photoImg) setBioFlipFace(flipFront, fromPage);
-    else setPlainFlipFace(flipFront, fromColor, pageLeftInn.innerHTML);
-    setPlainFlipFace(flipBack, toColor, buildRightHTML(toPage));
-    flipWrap.style.left = '0';
-    flipWrap.style.width = '50%';
-    flipWrap.style.transformOrigin = 'right top';
-  }
-
-  flipWrap.classList.add('active');
-  drag.active = true;
-  isAnimating = true;
-}
-
-function calcDragAngle(cx) {
-  const { dir, bookRect } = drag;
-  const W  = bookRect.width;
-  const mx = cx - bookRect.left;
-  if (dir === 'forward') return Math.max(-180, Math.min(0, (mx / W - 1) * 180));
-  return Math.max(0, Math.min(180, (mx / W) * 180));
-}
-
-document.addEventListener('pointermove', e => {
-  if (!drag) return;
-  if (!drag.active) {
-    if (Math.hypot(e.clientX - drag.startX, e.clientY - drag.startY) < 8) return;
-    activateDrag();
-  }
-  const angle = calcDragAngle(e.clientX);
-  const lift  = Math.sin((Math.abs(angle) / 180) * Math.PI) * 38;
-  flipWrap.style.transform = `perspective(1800px) rotateY(${angle}deg) translateZ(${lift}px)`;
-  e.preventDefault();
-}, { passive: false });
-
-document.addEventListener('pointerup', e => {
-  if (!drag) return;
-  const { dir, toIdx, active } = drag;
-  drag = null;
-
-  if (!active) {
-    // Tap without drag — play the full CSS animation
-    if (dir === 'forward' && currentIndex < pages.length - 1) navigateTo(currentIndex + 1);
-    else if (dir === 'back' && currentIndex > 0)              navigateTo(currentIndex - 1);
-    return;
-  }
-
-  const m     = flipWrap.style.transform.match(/rotateY\(([^d]+)deg\)/);
-  const angle = m ? parseFloat(m[1]) : 0;
-
-  if (Math.abs(angle) >= 60) {
-    // Past threshold — complete the flip
-    currentIndex = toIdx;
-    const finalAngle = dir === 'forward' ? -180 : 180;
-    flipWrap.style.transition = 'transform 0.4s cubic-bezier(0.33, 0, 0.25, 1)';
-    flipWrap.style.transform  = `perspective(1800px) rotateY(${finalAngle}deg) translateZ(0)`;
-    document.querySelectorAll('.popup-element.visible').forEach(p => {
-      p.classList.remove('visible'); p.classList.add('collapsing');
-    });
-    setTimeout(() => { bookBody.dataset.era = pages[toIdx].era; renderSpread(toIdx); }, 220);
-    setTimeout(() => {
-      flipWrap.style.transition = ''; flipWrap.style.transform = '';
-      flipWrap.classList.remove('active'); isAnimating = false;
-    }, 460);
-  } else {
-    // Below threshold — snap back
-    flipWrap.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-    flipWrap.style.transform  = 'perspective(1800px) rotateY(0deg) translateZ(0)';
-    setTimeout(() => {
-      flipWrap.style.transition = ''; flipWrap.style.transform = '';
-      flipWrap.classList.remove('active'); isAnimating = false;
-    }, 350);
-  }
-});
-
-document.addEventListener('pointercancel', () => {
-  if (!drag || !drag.active) { drag = null; return; }
-  drag = null;
-  flipWrap.style.transition = ''; flipWrap.style.transform = '';
-  flipWrap.classList.remove('active'); isAnimating = false;
-});
-
-document.getElementById('page-right').addEventListener('pointerdown', e => prepareDrag(e, 'forward'));
-document.getElementById('page-left').addEventListener('pointerdown',  e => prepareDrag(e, 'back'));
-
-/* ============================================================
-   PAGE FLIP
-   ============================================================ */
-function setBioFlipFace(el, page) {
-  el.style.background           = '#111';
-  el.style.backgroundImage      = `url('${page.photoImg}')`;
-  el.style.backgroundSize       = 'cover';
-  el.style.backgroundPosition   = 'center top';
-  el.style.padding              = '0';
-  el.innerHTML                  = '';
-}
-
-function setPlainFlipFace(el, color, html) {
-  el.style.background      = color;
-  el.style.backgroundImage = '';
-  el.style.padding         = '24px 22px 18px';
-  el.innerHTML             = html;
-}
-
-function flipPage(dir, fromIdx, toIdx) {
-  isAnimating = true;
-  const fromPage  = pages[fromIdx];
-  const toPage    = pages[toIdx];
-  const fromColor = eraColors[fromPage.era] || '#f0e6cc';
-  const toColor   = eraColors[toPage.era]   || '#f0e6cc';
-
-  if (dir === 'forward') {
-    setPlainFlipFace(flipFront, fromColor, pageRightInn.innerHTML);
-
-    if (toPage.type === 'bio' && toPage.photoImg) {
-      setBioFlipFace(flipBack, toPage);
+    // Left page — bio pages get the photo as background
+    if (page.type === 'bio' && page.photoImg) {
+      pageHtml.push(
+        '<div class="page bio-page" style="background-image:url(\'' + page.photoImg +
+        '\');background-size:cover;background-position:center top;">' +
+        buildLeftHTML(page) + '</div>'
+      );
     } else {
-      setPlainFlipFace(flipBack, toColor, buildLeftHTML(toPage));
+      pageHtml.push(
+        '<div class="page" style="background:' + bgColor + '">' +
+        buildLeftHTML(page) + '</div>'
+      );
     }
 
-    flipWrap.style.left            = '50%';
-    flipWrap.style.width           = '50%';
-    flipWrap.style.transformOrigin = 'left top';
-  } else {
-    if (fromPage.type === 'bio' && fromPage.photoImg) {
-      setBioFlipFace(flipFront, fromPage);
-    } else {
-      setPlainFlipFace(flipFront, fromColor, pageLeftInn.innerHTML);
+    // Right page
+    pageHtml.push(
+      '<div class="page" style="background:' + bgColor + '">' +
+      buildRightHTML(page) + '</div>'
+    );
+  });
+
+  $('#flipbook').html(pageHtml.join(''));
+
+  // Show all popup SVG elements immediately (pre-rendered, no per-page animation)
+  $('#flipbook .popup-element').addClass('visible');
+
+  $('#flipbook').turn({
+    width:        900,
+    height:       600,
+    autoCenter:   true,
+    display:      'double',
+    acceleration: true,
+    gradients:    true,
+    elevation:    50,
+    when: {
+      turned: function(e, page) {
+        // slot 2+3 = opening spread (index 0), slot 4+5 = pages[1], etc.
+        currentIndex = Math.max(0, Math.floor((page - 2) / 2));
+        spreadCtr.textContent = (currentIndex + 1) + ' / ' + pages.length;
+        updateDots();
+
+        var curPage = pages[currentIndex];
+        if (curPage && curPage.type === 'finale' && !kintsugiPlayed) {
+          kintsugiPlayed = true;
+          wireFinale();
+          playKintsugi();
+        }
+      }
     }
+  });
 
-    setPlainFlipFace(flipBack, toColor, buildRightHTML(toPage));
+  // Open straight to the first spread (blank left + quote right)
+  $('#flipbook').turn('page', 2);
 
-    flipWrap.style.left            = '0';
-    flipWrap.style.width           = '50%';
-    flipWrap.style.transformOrigin = 'right top';
-  }
-
-  flipWrap.classList.add('active');
-  void flipWrap.offsetWidth;
-  flipWrap.classList.add(dir === 'forward' ? 'turning-forward' : 'turning-back');
-
-  setTimeout(() => {
-    bookBody.dataset.era = pages[toIdx].era;
-    renderSpread(toIdx);
-  }, 430);
-
-  setTimeout(() => {
-    flipWrap.classList.remove('active', 'turning-forward', 'turning-back');
-    isAnimating = false;
-  }, 880);
-}
-
-/* ============================================================
-   COLLAPSE POPUPS
-   ============================================================ */
-function collapsePopups(cb) {
-  const pp = document.querySelectorAll('.popup-element.visible');
-  if (!pp.length) { cb(); return; }
-  pp.forEach(p => { p.classList.remove('visible'); p.classList.add('collapsing'); });
-  setTimeout(cb, 180);
-}
-
-/* ============================================================
-   RENDER
-   ============================================================ */
-function renderSpread(idx) {
-  const page      = pages[idx];
-  const pageLeftEl = document.getElementById('page-left');
-  bookBody.dataset.era = page.era;
-  updateNav();
-
-  if (page.type === 'bio') {
-    pageLeftEl.classList.add('bio-page');
-    if (page.photoImg) {
-      pageLeftEl.style.backgroundImage    = `url('${page.photoImg}')`;
-      pageLeftEl.style.backgroundSize     = 'cover';
-      pageLeftEl.style.backgroundPosition = 'center top';
+  // Click right half → next, click left half → previous
+  $('#flipbook').on('click', function(e) {
+    var half = $(this).width() / 2;
+    var x    = e.pageX - $(this).offset().left;
+    if (x > half) {
+      $(this).turn('next');
     } else {
-      pageLeftEl.style.backgroundImage = '';
+      $(this).turn('previous');
     }
-  } else {
-    pageLeftEl.classList.remove('bio-page');
-    pageLeftEl.style.backgroundImage    = '';
-    pageLeftEl.style.backgroundSize     = '';
-    pageLeftEl.style.backgroundPosition = '';
-  }
-
-  pageLeftInn.innerHTML  = buildLeftHTML(page);
-  pageRightInn.innerHTML = buildRightHTML(page);
-
-  if (page.type === 'finale') {
-    wireFinale();
-    if (!kintsugiPlayed) { kintsugiPlayed = true; playKintsugi(); }
-    return;
-  }
-  if (page.type !== 'bio') schedulePopups();
+  });
 }
 
 /* ============================================================
    LEFT PAGE HTML
    ============================================================ */
 function buildLeftHTML(page) {
-  if (page.type === 'cover')      return coverLeftHTML();
-  if (page.type === 'finale')     return finaleLeftHTML();
-  if (page.type === 'bio')        return bioLeftHTML(page);
+  if (page.type === 'cover')  return coverLeftHTML();
+  if (page.type === 'finale') return finaleLeftHTML();
+  if (page.type === 'bio')    return bioLeftHTML(page);
   return transitionLeftHTML(page);
 }
 
 function coverLeftHTML() {
   return `
     <div class="cover-page">
-      <div class="cover-texture"></div>
       <div class="cover-border"></div>
       <div class="cover-border-inner"></div>
       <div class="cover-content">
-        <div class="cover-author-line">✦ Xiao Huli ✦</div>
         <div class="cover-ornament">— ◆ —</div>
         <div class="cover-diamond-wrap">
           <div class="cover-diam-gem cover-gem-top">◆</div>
@@ -437,9 +272,9 @@ function finaleLeftHTML() {
    RIGHT PAGE HTML
    ============================================================ */
 function buildRightHTML(page) {
-  if (page.type === 'cover')      return coverRightHTML(page);
-  if (page.type === 'finale')     return finaleRightHTML();
-  if (page.type === 'bio')        return bioRightHTML(page);
+  if (page.type === 'cover')  return coverRightHTML(page);
+  if (page.type === 'finale') return finaleRightHTML();
+  if (page.type === 'bio')    return bioRightHTML(page);
   return transitionRightHTML(page);
 }
 
@@ -455,7 +290,6 @@ function coverRightHTML(page) {
         aux actes, et aux personnes qui osent. »
       </div>
       <div class="cover-right-sub">— Perception</div>
-      <div class="cover-right-hint">Suivant → pour commencer</div>
     </div>`;
 }
 
@@ -481,14 +315,26 @@ function finaleRightHTML() {
       <div class="kintsugi-container" id="kintsugi-container">
         <div class="kintsugi-book-cover" id="kintsugi-cover"></div>
         <svg class="kintsugi-svg" viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg">
-          <path class="kintsugi-crack" id="crack1" d="M110 150 L140 100 L160 75 L155 60"/>
-          <path class="kintsugi-crack" id="crack2" d="M110 150 L75 110 L50 80 L40 55"/>
-          <path class="kintsugi-crack" id="crack3" d="M110 150 L130 190 L150 230 L145 260"/>
-          <path class="kintsugi-crack" id="crack4" d="M110 150 L85 200 L60 240 L55 265"/>
-          <path class="kintsugi-crack" id="crack5" d="M110 150 L170 155 L200 160"/>
-          <path class="kintsugi-crack" id="crack6" d="M110 150 L50 145 L20 140"/>
-          <path class="kintsugi-crack" id="crack7" d="M140 100 L160 115 L175 125"/>
-          <path class="kintsugi-crack" id="crack8" d="M75 110 L60 125 L45 128"/>
+          <path class="kintsugi-crack" id="crack1"  d="M110 150 L140 100 L160 75 L155 60"/>
+          <path class="kintsugi-crack" id="crack2"  d="M110 150 L75 110 L50 80 L40 55"/>
+          <path class="kintsugi-crack" id="crack3"  d="M110 150 L130 190 L150 230 L145 260"/>
+          <path class="kintsugi-crack" id="crack4"  d="M110 150 L85 200 L60 240 L55 265"/>
+          <path class="kintsugi-crack" id="crack5"  d="M110 150 L170 155 L200 160"/>
+          <path class="kintsugi-crack" id="crack6"  d="M110 150 L50 145 L20 140"/>
+          <path class="kintsugi-crack" id="crack7"  d="M140 100 L160 115 L175 125"/>
+          <path class="kintsugi-crack" id="crack8"  d="M75 110 L60 125 L45 128"/>
+          <path class="kintsugi-crack" id="crack9"  d="M110 150 L113 92 L109 44 L112 6"/>
+          <path class="kintsugi-crack" id="crack10" d="M155 60 L180 34 L210 8"/>
+          <path class="kintsugi-crack" id="crack11" d="M40 55 L17 28 L3 5"/>
+          <path class="kintsugi-crack" id="crack12" d="M145 260 L168 283 L206 298"/>
+          <path class="kintsugi-crack" id="crack13" d="M55 265 L30 284 L6 298"/>
+          <path class="kintsugi-crack" id="crack14" d="M175 125 L198 96 L217 65"/>
+          <path class="kintsugi-crack" id="crack15" d="M45 128 L20 96 L5 60"/>
+          <path class="kintsugi-crack" id="crack16" d="M200 160 L218 194 L219 238"/>
+          <path class="kintsugi-crack" id="crack17" d="M20 140 L4 174 L6 218"/>
+          <path class="kintsugi-crack" id="crack18" d="M109 44 L138 62 L163 48"/>
+          <path class="kintsugi-crack" id="crack19" d="M113 92 L84 66 L56 46"/>
+          <path class="kintsugi-crack" id="crack20" d="M110 150 L111 222 L109 292"/>
         </svg>
       </div>
       <div class="finale-text-container" id="finale-text">
@@ -509,9 +355,9 @@ function wireFinale() {
   const link = document.getElementById('recommencer-link');
   if (link) {
     link.addEventListener('click', () => {
-      currentIndex = 0;
+      currentIndex   = 0;
       kintsugiPlayed = false;
-      renderSpread(0);
+      $('#flipbook').turn('page', 1);
     });
   }
 }
@@ -520,11 +366,11 @@ function wireFinale() {
    KINTSUGI
    ============================================================ */
 function playKintsugi() {
-  const cracks    = document.querySelectorAll('.kintsugi-crack');
-  const cover     = document.getElementById('kintsugi-cover');
-  const finText   = document.getElementById('finale-text');
-  const finDiv    = document.getElementById('finale-divider');
-  const finQ      = document.getElementById('finale-question');
+  const cracks  = document.querySelectorAll('.kintsugi-crack');
+  const cover   = document.getElementById('kintsugi-cover');
+  const finText = document.getElementById('finale-text');
+  const finDiv  = document.getElementById('finale-divider');
+  const finQ    = document.getElementById('finale-question');
 
   cracks.forEach(c => {
     try {
@@ -549,19 +395,6 @@ function playKintsugi() {
   setTimeout(() => { cover.style.opacity = '0.15'; finText.classList.add('visible'); }, 2800);
   setTimeout(() => { finDiv.style.transition = 'opacity 0.6s ease'; finDiv.style.opacity = '1'; }, 4200);
   setTimeout(() => { finQ.style.transition   = 'opacity 1s ease';   finQ.style.opacity   = '1'; }, 5000);
-}
-
-/* ============================================================
-   POPUP ANIMATION
-   ============================================================ */
-function schedulePopups() {
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      document.querySelectorAll('.popup-element').forEach((p, i) => {
-        setTimeout(() => p.classList.add('visible'), i * 200);
-      });
-    });
-  });
 }
 
 /* ============================================================
