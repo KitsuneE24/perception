@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Regard — Une œuvre · 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ======================================================
+     3D BOOK INTRO
+     ====================================================== -->
+<div id="scene">
+  <div id="book-intro" title="Cliquer pour ouvrir">
+    <ul class="bk-hardcover-front">
+      <li>
+        <div class="vine-corner tl">❧</div>
+        <div class="vine-corner tr">❧</div>
+        <div class="vine-corner bl">❧</div>
+        <div class="vine-corner br">❧</div>
+        <div class="book-ornament">— ✦ —</div>
+        <div class="book-title">Le Regard</div>
+        <div class="book-ornament">— ✦ —</div>
+        <div class="book-subtitle">Une œuvre · 2026</div>
+      </li>
+      <li></li>
+    </ul>
+    <ul class="bk-pages">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <ul class="bk-hardcover-back">
+      <li></li>
+      <li></li>
+    </ul>
+    <ul class="bk-spine">
+      <li id="open-btn"><span class="face-spine-title">Le Regard</span></li>
+      <li></li>
+    </ul>
+  </div>
+
+  <!-- ====================================================
+       FLAT BOOK (main reading experience)
+       ==================================================== -->
+  <div id="book-flat">
+    <div id="nav-bar">
+      <button class="nav-btn" id="btn-prev" disabled>← Précédent</button>
+      <div class="nav-center">
+        <div class="spread-counter" id="spread-counter">1 / 14</div>
+        <div class="dot-indicators" id="dot-indicators"></div>
+      </div>
+      <button class="nav-btn" id="btn-next">Suivant →</button>
+    </div>
+
+    <div class="book-container" id="book-body" data-era="ancient">
+      <div class="page-left" id="page-left">
+        <div class="page-inner" id="page-left-inner"></div>
+      </div>
+
+      <div class="page-right" id="page-right">
+        <div class="page-inner" id="page-right-inner"></div>
+      </div>
+
+      <!-- ================================================
+           PAGE TURN OVERLAY — realistic flipbook effect
+           ================================================ -->
+      <div id="page-turn-wrap">
+        <div class="turn-page-face turn-front" id="flip-front"></div>
+        <div class="turn-page-face turn-back"  id="flip-back"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
