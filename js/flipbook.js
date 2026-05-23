@@ -1,54 +1,31 @@
 'use strict';
 
 /* ============================================================
-STATE
-============================================================ */
+   STATE
+   ============================================================ */
 let currentIndex   = 0;
 let kintsugiPlayed = false;
 
 /* ============================================================
-DOM
-============================================================ */
-const bookIntro   = document.getElementById('book-intro');
-const openBtn     = document.getElementById('open-btn');
-const bookFlat    = document.getElementById('book-flat');
-const spreadCtr   = document.getElementById('spread-counter');
-const dotContainer= document.getElementById('dot-indicators');
+   DOM
+   ============================================================ */
+const spreadCtr    = document.getElementById('spread-counter');
+const dotContainer = document.getElementById('dot-indicators');
 
 /* ============================================================
-ERA COLORS
-============================================================ */
+   ERA COLORS
+   ============================================================ */
 const eraColors = {
-  ancient:      '#f0e6cc',
-  transition:   '#f3ead8',
-  modern:       '#f7f0e4',
-  contemporary: '#faf8f4',
-  finale:       '#ffffff'
+  ancient:      'var(--parchment-ancient)',
+  transition:   'var(--parchment-transition)',
+  modern:       'var(--parchment-modern)',
+  contemporary: 'var(--parchment-contemporary)',
+  finale:       'var(--parchment-finale)'
 };
 
 /* ============================================================
-OPEN BOOK
-============================================================ */
-function openBook() {
-  openBtn.classList.add('hidden');
-  bookIntro.classList.add('opening');
-  
-  buildDots();
-  
-  setTimeout(() => {
-    bookFlat.classList.add('visible');
-    initTurnJs();
-  }, 900);
-  
-  setTimeout(() => { bookIntro.classList.add('done'); }, 2100);
-  setTimeout(() => { bookIntro.style.display = 'none'; }, 2650);
-}
-bookIntro.addEventListener('click', openBook);
-openBtn.addEventListener('click', e => { e.stopPropagation(); openBook(); });
-
-/* ============================================================
-DOTS
-============================================================ */
+   DOTS
+   ============================================================ */
 const DOT_DEFS = [
   { label: 'Couverture',   ids: [0],    era: 'cover' },
   { label: 'Marie Curie',  ids: [1, 2], era: 'ancient' },
@@ -91,8 +68,8 @@ function updateDots() {
 }
 
 /* ============================================================
-NAV
-============================================================ */
+   NAV
+   ============================================================ */
 function navigateTo(idx) {
   // +2 because position 1 is the blank front-cover placeholder
   $('#flipbook').turn('page', idx * 2 + 2);
@@ -105,25 +82,25 @@ document.addEventListener('keydown', function(e) {
 });
 
 /* ============================================================
-TURN.JS INIT
-============================================================ */
+   TURN.JS INIT
+   ============================================================ */
 function initTurnJs() {
   var pageHtml = [];
-  
-  // Slot 1: blank placeholder (turn.js front-cover, never shown)
-  pageHtml.push('<div class="page" style="background:#1c4632">' + coverLeftHTML() + '</div>');
-  // Slot 2: blank dark green — left page of the opening spread
-  pageHtml.push('<div class="page" style="background:#1c4632"></div>');
+
+  // Slot 1: front-cover placeholder — shows the cover design
+  pageHtml.push('<div class="page" style="background:var(--cover-color-dark)">' + coverLeftHTML() + '</div>');
+  // Slot 2: blank cover — left page of the opening spread
+  pageHtml.push('<div class="page" style="background:var(--cover-color-dark)"></div>');
   // Slot 3: cover-right quote page — right page of the opening spread
   pageHtml.push(
-    '<div class="page" style="background:' + (eraColors[pages[0].era] || '#f0e6cc') + '">' +
+    '<div class="page" style="background:' + (eraColors[pages[0].era] || 'var(--parchment-ancient)') + '">' +
     buildRightHTML(pages[0]) + '</div>'
   );
-  
+
   // Slots 4+ : all content spreads from pages[1] onwards
   pages.slice(1).forEach(function(page) {
     var bgColor = eraColors[page.era] || '#f0e6cc';
-    
+
     // Left page — bio pages get the photo as background
     if (page.type === 'bio' && page.photoImg) {
       pageHtml.push(
@@ -137,16 +114,16 @@ function initTurnJs() {
         buildLeftHTML(page) + '</div>'
       );
     }
-    
+
     // Right page
     pageHtml.push(
       '<div class="page" style="background:' + bgColor + '">' +
       buildRightHTML(page) + '</div>'
     );
   });
-  
+
   $('#flipbook').html(pageHtml.join(''));
-  
+
   $('#flipbook').turn({
     width:        900,
     height:       600,
@@ -155,11 +132,12 @@ function initTurnJs() {
     acceleration: true,
     gradients:    true,
     elevation:    50,
+    corners:      'all',
     when: {
       turning: function() {
         // Collapse visible popups as the page starts to turn
         $('#flipbook .popup-element.visible')
-        .removeClass('visible').addClass('collapsing');
+          .removeClass('visible').addClass('collapsing');
         setTimeout(function() {
           $('#flipbook .popup-element.collapsing').removeClass('collapsing');
         }, 180);
@@ -169,16 +147,16 @@ function initTurnJs() {
         currentIndex = Math.max(0, Math.floor((page - 2) / 2));
         spreadCtr.textContent = (currentIndex + 1) + ' / ' + pages.length;
         updateDots();
-        
+
         // Animate popup elements on the newly visible spread
         $('#flipbook .popup-element').removeClass('visible');
         $('.p' + page + ', .p' + (page + 1))
-        .find('.popup-element')
-        .each(function(i) {
-          var $el = $(this);
-          setTimeout(function() { $el.addClass('visible'); }, i * 200);
-        });
-        
+          .find('.popup-element')
+          .each(function(i) {
+            var $el = $(this);
+            setTimeout(function() { $el.addClass('visible'); }, i * 200);
+          });
+
         var curPage = pages[currentIndex];
         if (curPage && curPage.type === 'finale' && !kintsugiPlayed) {
           kintsugiPlayed = true;
@@ -188,40 +166,40 @@ function initTurnJs() {
       }
     }
   });
-  
+
   // Open straight to the first spread (blank left + quote right)
   $('#flipbook').turn('page', 2);
-  
+
   // Animate popups on the opening spread
   $('.p2, .p3').find('.popup-element').each(function(i) {
     var $el = $(this);
     setTimeout(function() { $el.addClass('visible'); }, i * 200);
   });
-  
+
   // Click right half → next, click left half → previous
   // Track pointer-down position so drag releases don't trigger a turn
   var _ptrDownX = 0, _ptrDownY = 0;
   $('#flipbook')
-  .on('pointerdown', function(e) {
-    _ptrDownX = e.clientX;
-    _ptrDownY = e.clientY;
-  })
-  .on('click', function(e) {
-    if (Math.abs(e.clientX - _ptrDownX) > 8 ||
-    Math.abs(e.clientY - _ptrDownY) > 8) return;
-    var half = $(this).width() / 2;
-    var x    = e.pageX - $(this).offset().left;
-    if (x > half) {
-      $(this).turn('next');
-    } else {
-      $(this).turn('previous');
-    }
-  });
+    .on('pointerdown', function(e) {
+      _ptrDownX = e.clientX;
+      _ptrDownY = e.clientY;
+    })
+    .on('click', function(e) {
+      if (Math.abs(e.clientX - _ptrDownX) > 8 ||
+          Math.abs(e.clientY - _ptrDownY) > 8) return;
+      var half = $(this).width() / 2;
+      var x    = e.pageX - $(this).offset().left;
+      if (x > half) {
+        $(this).turn('next');
+      } else {
+        $(this).turn('previous');
+      }
+    });
 }
 
 /* ============================================================
-LEFT PAGE HTML
-============================================================ */
+   LEFT PAGE HTML
+   ============================================================ */
 function buildLeftHTML(page) {
   if (page.type === 'cover')  return coverLeftHTML();
   if (page.type === 'finale') return finaleLeftHTML();
@@ -244,20 +222,20 @@ function coverLeftHTML() {
           <div class="cover-diamond-frame">
             <div class="cover-diamond-face">
               <svg viewBox="0 0 88 88" width="66" height="66" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 44 Q44 16 80 44 Q44 72 8 44 Z" fill="rgba(22,56,35,0.4)" stroke="rgba(212,169,106,0.85)" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M8 44 Q44 16 80 44 Q44 72 8 44 Z" fill="rgba(107,45,139,0.4)" stroke="rgba(212,169,106,0.85)" stroke-width="1.8" stroke-linecap="round"/>
                 <path d="M20 36 Q44 24 68 36" fill="none" stroke="rgba(212,169,106,0.28)" stroke-width="0.9"/>
                 <circle cx="44" cy="44" r="16" fill="rgba(212,169,106,0.08)" stroke="rgba(212,169,106,0.72)" stroke-width="1.5"/>
                 <path d="M44 28 C48 34 48 39 44 44 C40 39 40 34 44 28" fill="rgba(212,169,106,0.14)" stroke="rgba(212,169,106,0.42)" stroke-width="0.9"/>
                 <path d="M44 60 C48 54 48 49 44 44 C40 49 40 54 44 60" fill="rgba(212,169,106,0.14)" stroke="rgba(212,169,106,0.42)" stroke-width="0.9"/>
-                <circle cx="44" cy="44" r="7" fill="rgba(22,56,35,0.92)" stroke="rgba(212,169,106,0.55)" stroke-width="1"/>
+                <circle cx="44" cy="44" r="7" fill="rgba(107,45,139,0.92)" stroke="rgba(212,169,106,0.55)" stroke-width="1"/>
                 <circle cx="49" cy="39" r="4" fill="rgba(212,169,106,0.82)"/>
                 <circle cx="49" cy="39" r="1.8" fill="rgba(255,240,180,0.95)"/>
               </svg>
             </div>
           </div>
         </div>
-        <div class="cover-title-big">Le regard forge la représentation</div>
-        <div class="cover-tagline">Une œuvre sur la représentation,<br>le temps, et celles qui ont osé.</div>
+        <div class="cover-title-big">Perception</div>
+        <div class="cover-tagline">Une œuvre sur la perception,<br>le temps, et celles qui ont osé.</div>
         <div class="cover-grimoire-tag">✦ Une Œuvre · 2026 ✦</div>
       </div>
     </div>`;
@@ -283,7 +261,7 @@ function transitionLeftHTML(page) {
 function finaleLeftHTML() {
   return `
     <div class="finale-left">
-      <div class="finale-message">La représentation se forge.<br>Grâce à elles. Grâce à nous.</div>
+      <div class="finale-message">La perception se forge.<br>Grâce à elles. Grâce à nous.</div>
       <div class="finale-names">
         Marie Curie · Sciences · 1867<br>
         Jeanne Chauvin · Droit · 1903<br>
@@ -291,15 +269,15 @@ function finaleLeftHTML() {
         <em>Et toutes celles dont on n'a pas encore écrit le nom.</em>
       </div>
       <div class="finale-central-message">
-        Chaque représentation qui change,<br>marque un tournant.
+        Chaque perception qui change<br>marque un tournant.
       </div>
       <div class="recommencer-link" id="recommencer-link">↺ Recommencer</div>
     </div>`;
 }
 
 /* ============================================================
-RIGHT PAGE HTML
-============================================================ */
+   RIGHT PAGE HTML
+   ============================================================ */
 function buildRightHTML(page) {
   if (page.type === 'cover')  return coverRightHTML(page);
   if (page.type === 'finale') return finaleRightHTML();
@@ -314,11 +292,11 @@ function coverRightHTML(page) {
         <div class="popup-element">${page.svgPopup}</div>
       </div>
       <div class="cover-right-quote">
-        « La représentation n'est jamais figée.<br>
+        « La perception n'est jamais figée.<br>
         Elle change grâce au temps,<br>
         aux actes, et aux personnes qui osent. »
       </div>
-      <div class="cover-right-sub">— Représentation</div>
+      <div class="cover-right-sub">— Perception</div>
     </div>`;
 }
 
@@ -327,6 +305,7 @@ function bioRightHTML(page) {
     <div class="bio-right-content">
       <p class="bio-right-tag">Ce qu'on lui a dit</p>
       <blockquote class="bio-quote">${page.biasQuote}</blockquote>
+      ${page.biasQuoteAttrib ? `<p class="bio-quote-attrib">${page.biasQuoteAttrib}</p>` : ''}
       <p class="bio-decode">${page.decode}</p>
     </div>`;
 }
@@ -342,18 +321,18 @@ function finaleRightHTML() {
   return `
     <div class="finale-right">
       <div class="kintsugi-container" id="kintsugi-container">
-      <div class="kintsugi-book-cover" id="kintsugi-cover">
-      <div style="
-        position: absolute;
-        top: 0; left: 0;
-        width: 450px; height: 600px;
-        transform: scale(0.444);
-        transform-origin: top left;
-        pointer-events: none;
-      ">
-        ${coverLeftHTML()}
-      </div>
-    </div>
+        <div class="kintsugi-book-cover" id="kintsugi-cover">
+          <div style="
+            position: absolute;
+            top: 0; left: 0;
+            width: 450px; height: 600px;
+            transform: scale(0.444);
+            transform-origin: top left;
+            pointer-events: none;
+          ">
+            ${coverLeftHTML()}
+          </div>
+        </div>
         <svg class="kintsugi-svg" viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg">
           <path class="kintsugi-crack" id="crack1"  d="M110 150 L140 100 L160 75 L155 60"/>
           <path class="kintsugi-crack" id="crack2"  d="M110 150 L75 110 L50 80 L40 55"/>
@@ -378,68 +357,19 @@ function finaleRightHTML() {
         </svg>
       </div>
       <div class="finale-text-container" id="finale-text">
-        <div class="finale-line1">La représentation se forge.</div>
+        <div class="finale-line1">La perception se forge.</div>
         <div class="finale-line2">Grâce à elles. Grâce à nous.</div>
         <div class="finale-divider" id="finale-divider" style="opacity:0;margin:12px auto;"></div>
         <div class="finale-question" id="finale-question" style="opacity:0;">
-          Chaque représentation qui change,<br>marque un tournant.
+          Chaque perception qui change<br>marque un tournant.
         </div>
       </div>
     </div>`;
 }
 
 /* ============================================================
-FINALE WIRING
-============================================================ */
-function wireFinale() {
-  const link = document.getElementById('recommencer-link');
-  if (link) {
-    link.addEventListener('click', () => {
-      currentIndex   = 0;
-      kintsugiPlayed = false;
-      $('#flipbook').turn('page', 1);
-    });
-  }
-}
-
-/* ============================================================
-KINTSUGI
-============================================================ */
-function playKintsugi() {
-  const cracks  = document.querySelectorAll('.kintsugi-crack');
-  const cover   = document.getElementById('kintsugi-cover');
-  const finText = document.getElementById('finale-text');
-  const finDiv  = document.getElementById('finale-divider');
-  const finQ    = document.getElementById('finale-question');
-  
-  cracks.forEach(c => {
-    try {
-      const len = c.getTotalLength ? c.getTotalLength() : 200;
-      c.style.strokeDasharray  = len;
-      c.style.strokeDashoffset = len;
-    } catch(e) {
-      c.style.strokeDasharray = c.style.strokeDashoffset = 200;
-    }
-  });
-  
-  setTimeout(() => {
-    cover.style.filter     = 'brightness(0.85)';
-    cover.style.transition = 'filter 1.5s ease';
-    cracks.forEach((c, i) => {
-      c.style.transition       = `stroke-dashoffset ${0.6 + i * 0.1}s ease-out ${i * 0.1}s`;
-      c.style.strokeDashoffset = '0';
-    });
-  }, 400);
-  
-  setTimeout(() => { cracks.forEach(c => c.classList.add('gold')); cover.style.filter = 'brightness(1.05)'; }, 1600);
-  setTimeout(() => { cover.style.opacity = '0.15'; finText.classList.add('visible'); }, 2800);
-  setTimeout(() => { finDiv.style.transition = 'opacity 0.6s ease'; finDiv.style.opacity = '1'; }, 4200);
-  setTimeout(() => { finQ.style.transition   = 'opacity 1s ease';   finQ.style.opacity   = '1'; }, 5000);
-}
-
-/* ============================================================
-INIT
-============================================================ */
+   INIT
+   ============================================================ */
 pages.forEach(p => {
   if (p.photoImg) {
     const img = new Image();

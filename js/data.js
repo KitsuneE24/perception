@@ -200,13 +200,11 @@ const pages = [
     id: 1, type: 'bio', era: 'ancient',
     year: '1867', domain: 'Sciences', location: 'Pologne', name: 'Marie Curie',
     description: 'Physicienne et chimiste. Première femme Prix Nobel — deux fois, dans deux disciplines différentes.',
-    titleStatement: 'La première à recevoir deux prix Nobel, dans deux disciplines.',
-    biasQuote: '« Remarquable… pour une femme. On ne s\'attendait pas à ce qu\'une femme aille si loin. »',
+    biasQuote: '« Nos traditions ne permettent pas d\'admettre une femme en notre Académie, si éminentes que soient ses qualités. »',
+    biasQuoteAttrib: '— Délibération de l\'Académie des sciences de Paris, 23 janvier 1911',
     decode: 'Ce que ça dit : <strong>l\'exploit est réel, mais conditionnel.</strong> La surprise elle-même est le biais.',
     photoImg: 'assets/images/marie-curie.jpg',
-    photoCaption: 'Maria Skłodowska, vers 1900',
-    motif: 'Ce n\'est pas un point d\'arrivée. C\'est un point de départ.',
-    svgPopup: SVG_CURIE
+    photoCaption: 'Maria Skłodowska, vers 1900'
   },
 
   /* 2 — TRANSITION Curie → Chauvin */
@@ -221,13 +219,11 @@ const pages = [
     id: 3, type: 'bio', era: 'transition',
     year: '1903', domain: 'Droit', location: 'France', name: 'Jeanne Chauvin',
     description: 'Juriste française. Première femme à obtenir le droit de plaider devant les tribunaux en France.',
-    titleStatement: 'Elle plaidait mieux que ses confrères. On lui refusait la barre.',
-    biasQuote: '« Elle a du talent, certes. Mais la robe d\'avocat n\'est pas faite pour les femmes. »',
+    biasQuote: '« L\'exercice de la profession d\'avocat est incompatible avec la nature de la femme. »',
+    biasQuoteAttrib: '— Cour d\'appel de Paris, arrêt du 15 novembre 1897',
     decode: 'Ce que ça dit : <strong>quand le chemin n\'existe pas, certaines le créent.</strong> Il a fallu changer la loi, pas elle.',
     photoImg: 'assets/images/Jeanne_Chauvin.jpg',
-    photoCaption: 'Jeanne Chauvin, première avocate plaidante',
-    motif: 'Ce n\'est pas un point d\'arrivée. C\'est un point de départ.',
-    svgPopup: SVG_CHAUVIN
+    photoCaption: 'Jeanne Chauvin, première avocate plaidante'
   },
 
   /* 4 — TRANSITION Chauvin → Switzer */
@@ -242,13 +238,11 @@ const pages = [
     id: 5, type: 'bio', era: 'modern',
     year: '1967', domain: 'Sport', location: 'États-Unis', name: 'Kathrine Switzer',
     description: 'Athlète américaine. Première femme à courir officiellement le marathon de Boston.',
-    titleStatement: 'On a tenté de la retirer de la course à la main.',
-    biasQuote: '« Les femmes ne sont pas physiologiquement capables de courir un marathon. »',
+    biasQuote: '« Fous le camp de ma course ! Rends-moi ces dossards ! »',
+    biasQuoteAttrib: '— Jock Semple, Boston Athletic Association, Marathon de Boston, 19 avril 1967',
     decode: 'Ce que ça dit : <strong>quand les mots ne suffisent plus à exclure, le corps suit.</strong> Elle a couru. Elle est arrivée.',
     photoImg: 'assets/images/kathrine-switzer1.jpg',
-    photoCaption: 'Kathrine Switzer, dossard 261, Boston 1967',
-    motif: 'Ce n\'est pas un point d\'arrivée. C\'est un point de départ.',
-    svgPopup: SVG_SWITZER
+    photoCaption: 'Kathrine Switzer, dossard 261, Boston 1967'
   },
 
   /* 6 — TRANSITION Switzer → Aujourd'hui */
@@ -261,15 +255,13 @@ const pages = [
   /* 7 — BIO Aujourd'hui */
   {
     id: 7, type: 'bio', era: 'contemporary',
-    year: 'Aujourd\'hui', domain: 'Partout', location: '', name: 'Chacun·e',
-    description: 'Le biais a changé de forme. Les mots sont différents. L\'étonnement, lui, est resté.',
-    titleStatement: '« T\'as bien géré ça… pour une meuf. »',
-    biasQuote: '« Je ne m\'attendais pas à ça de toi. »<br>« Tu t\'en sors vraiment bien. »',
-    decode: 'Ce que ça dit encore : <strong>l\'étonnement lui-même est le biais.</strong> On ne devrait pas être surpris. On devrait juste voir la personne.',
-    photoImg: 'assets/images/today.jpg',
-    photoCaption: '',
-    motif: 'Ce n\'est pas un point d\'arrivée. C\'est un point de départ.',
-    svgPopup: SVG_MIROIR
+    year: '2025', domain: 'Cinéma', location: 'États-Unis', name: 'Anne Hathaway',
+    description: 'Elles ont choisi l\'action dans un monde qui attend le silence.',
+    biasQuote: '« Elle est talentueuse, c\'est sûr. Mais elle en fait trop. Elle agace. »',
+    biasQuoteAttrib: '— Phénomène médiatique « Hathahate », presse américaine, 2012–2013',
+    decode: 'Ce que ça dit : <strong>quand une femme excelle avec passion, on appelle ça de l\'excès.</strong> Chez un homme, on appelle ça de l\'ambition.',
+    photoImg: 'assets/images/anne_hathaway.jpg',
+    photoCaption: 'Anne Hathaway · Journée internationale des droits des femmes, 2025'
   },
 
   /* 8 — TRANSITION Aujourd'hui → Finale */
