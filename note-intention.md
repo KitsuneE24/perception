@@ -1,7 +1,7 @@
-# Note d'intention — Perception
+# Note d'intention — representation
 
 ## 1. Titre de l'œuvre
-Perception
+representation
 
 ## 2. Format et support
 Création numérique interactive — site web (HTML/CSS/JavaScript).
@@ -19,12 +19,12 @@ Structure : 10 spreads (20 pages), organisés en :
 [À compléter : le lien personnel avec le sujet]
 
 ## 4. Lien avec "On ne badine pas avec l'amour"
-[À compléter : les rapports de pouvoir et le regard sur les femmes dans la pièce de Musset]
-[À compléter : la parole qui blesse ou libère, le regard qui fige ou transforme]
-[À compléter : Rosette, Camille — des femmes dont le sort dépend du regard des autres]
+[À compléter : les rapports de pouvoir et le representation sur les femmes dans la pièce de Musset]
+[À compléter : la parole qui blesse ou libère, le representation qui fige ou transforme]
+[À compléter : Rosette, Camille — des femmes dont le sort dépend du representation des autres]
 
 ## 5. Lien avec les thématiques du concours
-Cette œuvre interroge les stéréotypes de genre à travers quatre époques réelles et des femmes réelles dont les parcours sont documentés et sourcés. Elle montre que la perception n'est pas figée — qu'elle évolue grâce à des actes concrets et à des personnes qui ont osé agir, pour elles et pour tout le monde. La phrase biaisée y est toujours présentée comme un point de départ, jamais comme un verdict.
+Cette œuvre interroge les stéréotypes de genre à travers quatre époques réelles et des femmes réelles dont les parcours sont documentés et sourcés. Elle montre que la representation n'est pas figée — qu'elle évolue grâce à des actes concrets et à des personnes qui ont osé agir, pour elles et pour tout le monde. La phrase biaisée y est toujours présentée comme un point de départ, jamais comme un verdict.
 
 ## 6. Choix esthétiques et conceptuels
 La couverture grimoire (vert émeraude, or, médaillon losange) : le livre comme objet précieux et ancien — quelque chose qui mérite d'être ouvert avec soin.

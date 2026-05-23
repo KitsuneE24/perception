@@ -246,7 +246,7 @@ html, body {
 /* ---- COVER TEXT & ORNAMENTS ---- */
 .book-title {
   font-family: var(--font-serif);
-  font-size: 34px;
+  font-size: 20px;
   color: var(--spine-gold);
   letter-spacing: 4px;
   text-align: center;
@@ -312,7 +312,6 @@ html, body {
   flex: 1;
   display: flex;
   position: relative;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 10px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,0,0,0.3);
   border-radius: 2px;
   overflow: hidden;
   transform-style: preserve-3d;
@@ -450,10 +449,10 @@ html, body {
     to top,
     rgb(0, 0, 0) 0%,
     rgba(0, 0, 0, 0.95) 15%,
-    rgba(0, 0, 0, 0.85) 30%,
-    rgba(0, 0, 0, 0.65) 50%,
-    rgba(0, 0, 0, 0.35) 70%,
-    rgba(0, 0, 0, 0.12) 85%,
+    rgba(0, 0, 0, 0.85) 40%,
+    rgba(0, 0, 0, 0.65) 60%,
+    rgba(0, 0, 0, 0.35) 80%,
+    rgba(0, 0, 0, 0.12) 90%,
     transparent 100%
   );
   z-index: 2;
@@ -593,7 +592,7 @@ html, body {
 
 /* Cover right page */
 .cover-right { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 32px; text-align: center; }
-.cover-right-quote { font-family: var(--font-serif); font-style: italic; font-size: 15px; color: var(--ink-brown); line-height: 1.85; max-width: 280px; margin-top: 20px; }
+.cover-right-quote { font-family: var(--font-serif); font-style: italic; font-size: 20px; color: var(--ink-brown); line-height: 1.85; max-width: 280px; margin-top: 20px; }
 .cover-right-sub { font-size: 10px; color: var(--ink-brown-light); margin-top: 12px; letter-spacing: 1px; }
 .cover-right-hint { font-family: var(--font-serif); font-style: italic; font-size: 10px; color: var(--ink-brown-light); margin-top: auto; padding-top: 16px; opacity: 0.6; }
 
@@ -613,8 +612,8 @@ html, body {
 .block { border-radius: 2px; padding: 14px 16px; margin-bottom: 14px; }
 .block-label { font-size: 8.5px; text-transform: uppercase; letter-spacing: 1.8px; font-family: var(--font-sans); margin-bottom: 8px; opacity: 0.65; }
 
-.block-perception { background: var(--frame-a-bg); border: 1.5px solid var(--frame-a-border); border-left: 4px solid var(--frame-a-border); }
-.block-perception .block-label { color: var(--frame-a-border); }
+.block-representation { background: var(--frame-a-bg); border: 1.5px solid var(--frame-a-border); border-left: 4px solid var(--frame-a-border); }
+.block-representation .block-label { color: var(--frame-a-border); }
 .block-quote { font-family: var(--font-serif); font-style: italic; font-size: 14px; color: var(--ink-brown); line-height: 1.7; }
 
 .block-acte { background: var(--frame-b-bg); border: 1.5px solid var(--frame-b-border); border-left: 4px solid var(--frame-b-border); }
@@ -639,7 +638,6 @@ html, body {
 .finale-right { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 24px; position: relative; }
 .kintsugi-container { position: relative; width: 200px; height: 275px; margin: 0 auto; }
 .kintsugi-book-cover { width: 200px; height: 275px; background: var(--cover-color); border-radius: 2px; position: relative; overflow: hidden; transition: filter 1.5s ease, opacity 1s ease; }
-.kintsugi-book-cover::after { content: 'Le Regard'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--font-serif); font-size: 24px; color: rgba(212,169,106,0.8); letter-spacing: 4px; pointer-events: none; }
 .kintsugi-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 .kintsugi-crack { stroke: #2a1a0a; stroke-width: 1.5; fill: none; stroke-dasharray: 300; stroke-dashoffset: 300; stroke-linecap: round; transition: stroke 1.2s ease, filter 1.2s ease; }
 .kintsugi-crack.gold { stroke: var(--kintsugi-gold); filter: drop-shadow(0 0 6px #c8922a); }
@@ -662,18 +660,6 @@ html, body {
 .dot-group-sep { width: 1px; height: 10px; background: rgba(212,169,106,0.25); margin: 0 2px; }
 .dot { width: 7px; height: 7px; border-radius: 50%; border: 1px solid rgba(212,169,106,0.4); cursor: pointer; transition: all 0.25s; background: transparent; }
 .dot.active { background: var(--spine-gold); border-color: var(--spine-gold); }
-.dot.ancient { border-color: #b8855a; }
-.dot.ancient.active { background: #b8855a; }
-.dot.transition-era { border-color: #7a9a52; }
-.dot.transition-era.active { background: #7a9a52; }
-.dot.modern { border-color: #5a7a9a; }
-.dot.modern.active { background: #5a7a9a; }
-.dot.contemporary { border-color: #5a7a9a; }
-.dot.contemporary.active { background: #5a7a9a; }
-.dot.finale { border-color: #c8922a; }
-.dot.finale.active { background: #c8922a; }
-.dot.cover { border-color: rgba(212,169,106,0.6); }
-.dot.cover.active { background: rgba(212,169,106,0.8); }
 
 /* ============================================================
    RESPONSIVE

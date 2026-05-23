@@ -1,14 +1,14 @@
 'use strict';
 
 /* ============================================================
-   STATE
-   ============================================================ */
+STATE
+============================================================ */
 let currentIndex   = 0;
 let kintsugiPlayed = false;
 
 /* ============================================================
-   DOM
-   ============================================================ */
+DOM
+============================================================ */
 const bookIntro   = document.getElementById('book-intro');
 const openBtn     = document.getElementById('open-btn');
 const bookFlat    = document.getElementById('book-flat');
@@ -16,8 +16,8 @@ const spreadCtr   = document.getElementById('spread-counter');
 const dotContainer= document.getElementById('dot-indicators');
 
 /* ============================================================
-   ERA COLORS
-   ============================================================ */
+ERA COLORS
+============================================================ */
 const eraColors = {
   ancient:      '#f0e6cc',
   transition:   '#f3ead8',
@@ -27,19 +27,19 @@ const eraColors = {
 };
 
 /* ============================================================
-   OPEN BOOK
-   ============================================================ */
+OPEN BOOK
+============================================================ */
 function openBook() {
   openBtn.classList.add('hidden');
   bookIntro.classList.add('opening');
-
+  
   buildDots();
-
+  
   setTimeout(() => {
     bookFlat.classList.add('visible');
     initTurnJs();
   }, 900);
-
+  
   setTimeout(() => { bookIntro.classList.add('done'); }, 2100);
   setTimeout(() => { bookIntro.style.display = 'none'; }, 2650);
 }
@@ -47,8 +47,8 @@ bookIntro.addEventListener('click', openBook);
 openBtn.addEventListener('click', e => { e.stopPropagation(); openBook(); });
 
 /* ============================================================
-   DOTS
-   ============================================================ */
+DOTS
+============================================================ */
 const DOT_DEFS = [
   { label: 'Couverture',   ids: [0],    era: 'cover' },
   { label: 'Marie Curie',  ids: [1, 2], era: 'ancient' },
@@ -91,8 +91,8 @@ function updateDots() {
 }
 
 /* ============================================================
-   NAV
-   ============================================================ */
+NAV
+============================================================ */
 function navigateTo(idx) {
   // +2 because position 1 is the blank front-cover placeholder
   $('#flipbook').turn('page', idx * 2 + 2);
@@ -105,13 +105,13 @@ document.addEventListener('keydown', function(e) {
 });
 
 /* ============================================================
-   TURN.JS INIT
-   ============================================================ */
+TURN.JS INIT
+============================================================ */
 function initTurnJs() {
   var pageHtml = [];
-
+  
   // Slot 1: blank placeholder (turn.js front-cover, never shown)
-  pageHtml.push('<div class="page" style="background:#1c4632"></div>');
+  pageHtml.push('<div class="page" style="background:#1c4632">' + coverLeftHTML() + '</div>');
   // Slot 2: blank dark green — left page of the opening spread
   pageHtml.push('<div class="page" style="background:#1c4632"></div>');
   // Slot 3: cover-right quote page — right page of the opening spread
@@ -119,11 +119,11 @@ function initTurnJs() {
     '<div class="page" style="background:' + (eraColors[pages[0].era] || '#f0e6cc') + '">' +
     buildRightHTML(pages[0]) + '</div>'
   );
-
+  
   // Slots 4+ : all content spreads from pages[1] onwards
   pages.slice(1).forEach(function(page) {
     var bgColor = eraColors[page.era] || '#f0e6cc';
-
+    
     // Left page — bio pages get the photo as background
     if (page.type === 'bio' && page.photoImg) {
       pageHtml.push(
@@ -137,19 +137,16 @@ function initTurnJs() {
         buildLeftHTML(page) + '</div>'
       );
     }
-
+    
     // Right page
     pageHtml.push(
       '<div class="page" style="background:' + bgColor + '">' +
       buildRightHTML(page) + '</div>'
     );
   });
-
+  
   $('#flipbook').html(pageHtml.join(''));
-
-  // Show all popup SVG elements immediately (pre-rendered, no per-page animation)
-  $('#flipbook .popup-element').addClass('visible');
-
+  
   $('#flipbook').turn({
     width:        900,
     height:       600,
@@ -159,12 +156,29 @@ function initTurnJs() {
     gradients:    true,
     elevation:    50,
     when: {
+      turning: function() {
+        // Collapse visible popups as the page starts to turn
+        $('#flipbook .popup-element.visible')
+        .removeClass('visible').addClass('collapsing');
+        setTimeout(function() {
+          $('#flipbook .popup-element.collapsing').removeClass('collapsing');
+        }, 180);
+      },
       turned: function(e, page) {
         // slot 2+3 = opening spread (index 0), slot 4+5 = pages[1], etc.
         currentIndex = Math.max(0, Math.floor((page - 2) / 2));
         spreadCtr.textContent = (currentIndex + 1) + ' / ' + pages.length;
         updateDots();
-
+        
+        // Animate popup elements on the newly visible spread
+        $('#flipbook .popup-element').removeClass('visible');
+        $('.p' + page + ', .p' + (page + 1))
+        .find('.popup-element')
+        .each(function(i) {
+          var $el = $(this);
+          setTimeout(function() { $el.addClass('visible'); }, i * 200);
+        });
+        
         var curPage = pages[currentIndex];
         if (curPage && curPage.type === 'finale' && !kintsugiPlayed) {
           kintsugiPlayed = true;
@@ -174,12 +188,27 @@ function initTurnJs() {
       }
     }
   });
-
+  
   // Open straight to the first spread (blank left + quote right)
   $('#flipbook').turn('page', 2);
-
+  
+  // Animate popups on the opening spread
+  $('.p2, .p3').find('.popup-element').each(function(i) {
+    var $el = $(this);
+    setTimeout(function() { $el.addClass('visible'); }, i * 200);
+  });
+  
   // Click right half → next, click left half → previous
-  $('#flipbook').on('click', function(e) {
+  // Track pointer-down position so drag releases don't trigger a turn
+  var _ptrDownX = 0, _ptrDownY = 0;
+  $('#flipbook')
+  .on('pointerdown', function(e) {
+    _ptrDownX = e.clientX;
+    _ptrDownY = e.clientY;
+  })
+  .on('click', function(e) {
+    if (Math.abs(e.clientX - _ptrDownX) > 8 ||
+    Math.abs(e.clientY - _ptrDownY) > 8) return;
     var half = $(this).width() / 2;
     var x    = e.pageX - $(this).offset().left;
     if (x > half) {
@@ -191,8 +220,8 @@ function initTurnJs() {
 }
 
 /* ============================================================
-   LEFT PAGE HTML
-   ============================================================ */
+LEFT PAGE HTML
+============================================================ */
 function buildLeftHTML(page) {
   if (page.type === 'cover')  return coverLeftHTML();
   if (page.type === 'finale') return finaleLeftHTML();
@@ -227,8 +256,8 @@ function coverLeftHTML() {
             </div>
           </div>
         </div>
-        <div class="cover-title-big">Perception</div>
-        <div class="cover-tagline">Une œuvre sur la perception,<br>le temps, et celles qui ont osé.</div>
+        <div class="cover-title-big">Le regard forge la représentation</div>
+        <div class="cover-tagline">Une œuvre sur la représentation,<br>le temps, et celles qui ont osé.</div>
         <div class="cover-grimoire-tag">✦ Une Œuvre · 2026 ✦</div>
       </div>
     </div>`;
@@ -254,7 +283,7 @@ function transitionLeftHTML(page) {
 function finaleLeftHTML() {
   return `
     <div class="finale-left">
-      <div class="finale-message">Le regard évolue.<br>Grâce à elles. Grâce à nous.</div>
+      <div class="finale-message">La représentation se forge.<br>Grâce à elles. Grâce à nous.</div>
       <div class="finale-names">
         Marie Curie · Sciences · 1867<br>
         Jeanne Chauvin · Droit · 1903<br>
@@ -262,15 +291,15 @@ function finaleLeftHTML() {
         <em>Et toutes celles dont on n'a pas encore écrit le nom.</em>
       </div>
       <div class="finale-central-message">
-        Chaque regard qui change,<br>change quelque chose.
+        Chaque représentation qui change,<br>marque un tournant.
       </div>
       <div class="recommencer-link" id="recommencer-link">↺ Recommencer</div>
     </div>`;
 }
 
 /* ============================================================
-   RIGHT PAGE HTML
-   ============================================================ */
+RIGHT PAGE HTML
+============================================================ */
 function buildRightHTML(page) {
   if (page.type === 'cover')  return coverRightHTML(page);
   if (page.type === 'finale') return finaleRightHTML();
@@ -285,11 +314,11 @@ function coverRightHTML(page) {
         <div class="popup-element">${page.svgPopup}</div>
       </div>
       <div class="cover-right-quote">
-        « La perception n'est jamais figée.<br>
+        « La représentation n'est jamais figée.<br>
         Elle change grâce au temps,<br>
         aux actes, et aux personnes qui osent. »
       </div>
-      <div class="cover-right-sub">— Perception</div>
+      <div class="cover-right-sub">— Représentation</div>
     </div>`;
 }
 
@@ -313,7 +342,18 @@ function finaleRightHTML() {
   return `
     <div class="finale-right">
       <div class="kintsugi-container" id="kintsugi-container">
-        <div class="kintsugi-book-cover" id="kintsugi-cover"></div>
+      <div class="kintsugi-book-cover" id="kintsugi-cover">
+      <div style="
+        position: absolute;
+        top: 0; left: 0;
+        width: 450px; height: 600px;
+        transform: scale(0.444);
+        transform-origin: top left;
+        pointer-events: none;
+      ">
+        ${coverLeftHTML()}
+      </div>
+    </div>
         <svg class="kintsugi-svg" viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg">
           <path class="kintsugi-crack" id="crack1"  d="M110 150 L140 100 L160 75 L155 60"/>
           <path class="kintsugi-crack" id="crack2"  d="M110 150 L75 110 L50 80 L40 55"/>
@@ -338,19 +378,19 @@ function finaleRightHTML() {
         </svg>
       </div>
       <div class="finale-text-container" id="finale-text">
-        <div class="finale-line1">Le regard évolue.</div>
+        <div class="finale-line1">La représentation se forge.</div>
         <div class="finale-line2">Grâce à elles. Grâce à nous.</div>
         <div class="finale-divider" id="finale-divider" style="opacity:0;margin:12px auto;"></div>
         <div class="finale-question" id="finale-question" style="opacity:0;">
-          Chaque regard qui change,<br>change quelque chose.
+          Chaque représentation qui change,<br>marque un tournant.
         </div>
       </div>
     </div>`;
 }
 
 /* ============================================================
-   FINALE WIRING
-   ============================================================ */
+FINALE WIRING
+============================================================ */
 function wireFinale() {
   const link = document.getElementById('recommencer-link');
   if (link) {
@@ -363,15 +403,15 @@ function wireFinale() {
 }
 
 /* ============================================================
-   KINTSUGI
-   ============================================================ */
+KINTSUGI
+============================================================ */
 function playKintsugi() {
   const cracks  = document.querySelectorAll('.kintsugi-crack');
   const cover   = document.getElementById('kintsugi-cover');
   const finText = document.getElementById('finale-text');
   const finDiv  = document.getElementById('finale-divider');
   const finQ    = document.getElementById('finale-question');
-
+  
   cracks.forEach(c => {
     try {
       const len = c.getTotalLength ? c.getTotalLength() : 200;
@@ -381,7 +421,7 @@ function playKintsugi() {
       c.style.strokeDasharray = c.style.strokeDashoffset = 200;
     }
   });
-
+  
   setTimeout(() => {
     cover.style.filter     = 'brightness(0.85)';
     cover.style.transition = 'filter 1.5s ease';
@@ -390,7 +430,7 @@ function playKintsugi() {
       c.style.strokeDashoffset = '0';
     });
   }, 400);
-
+  
   setTimeout(() => { cracks.forEach(c => c.classList.add('gold')); cover.style.filter = 'brightness(1.05)'; }, 1600);
   setTimeout(() => { cover.style.opacity = '0.15'; finText.classList.add('visible'); }, 2800);
   setTimeout(() => { finDiv.style.transition = 'opacity 0.6s ease'; finDiv.style.opacity = '1'; }, 4200);
@@ -398,8 +438,8 @@ function playKintsugi() {
 }
 
 /* ============================================================
-   INIT
-   ============================================================ */
+INIT
+============================================================ */
 pages.forEach(p => {
   if (p.photoImg) {
     const img = new Image();

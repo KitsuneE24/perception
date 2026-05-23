@@ -1,4 +1,4 @@
-# Illustrations — Perception
+# Illustrations — representation
 
 Ce dossier est prévu pour accueillir des illustrations optionnelles.
 Les photos des personnes sont chargées directement depuis Wikimedia Commons (domaine public) via les URLs définies dans `data.js`.
