@@ -269,9 +269,16 @@ function bioLeftHTML(page) {
 }
 
 function transitionLeftHTML(page) {
+  const photos = page.photosLeft || [];
+  const standeesHTML = photos.length
+    ? `<div class="standee-group">${photos.map(src =>
+        `<div class="popup-element"><div class="paper-standee" style="background-image:url('${src}')"></div></div>`
+      ).join('')}</div>`
+    : '';
   return `
     <div class="popup-area">
       <div class="popup-element">${page.svgLeft}</div>
+      ${standeesHTML}
     </div>`;
 }
 
@@ -284,12 +291,11 @@ function finaleLeftHTML() {
         Marie Curie · Sciences · 1911<br>
         Kathrine Switzer · Sport · 1967<br>
         Anne Hathaway · Internet · 2026<br>
-        <em>Et toutes celles dont on n'a pas encore écrit le nom.</em>
+        <em>Et toutes celles et ceux dont on n'a pas encore écrit le nom.</em>
       </div>
       <div class="finale-central-message">
         Ces exemples montrent une évolution réelle : les femmes ont progressivement accédé à des espaces autrefois fermés dans le droit, la science ou le sport. Les formes de résistance n’ont pas disparu, mais elles ont changé de nature, accompagnant l’ouverture progressive des institutions et des pratiques sociales.
       </div>
-      <div class="recommencer-link" id="recommencer-link">↺ Recommencer</div>
     </div>`;
 }
 
@@ -330,9 +336,16 @@ function bioRightHTML(page) {
 }
 
 function transitionRightHTML(page) {
+  const photos = page.photosRight || [];
+  const standeesHTML = photos.length
+    ? `<div class="standee-group">${photos.map(src =>
+        `<div class="popup-element"><div class="paper-standee" style="background-image:url('${src}')"></div></div>`
+      ).join('')}</div>`
+    : '';
   return `
     <div class="popup-area">
       <div class="popup-element">${page.svgRight}</div>
+      ${standeesHTML}
     </div>`;
 }
 
@@ -382,6 +395,7 @@ function finaleRightHTML() {
         <div class="finale-question" id="finale-question" style="opacity:0;">
           Chaque perception qui change<br>marque un tournant.
         </div>
+        <button class="finale-popup-trigger" id="finale-popup-trigger">✦ Voir la suite</button>
       </div>
     </div>`;
 }

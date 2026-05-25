@@ -27,3 +27,360 @@
 .finale-line2    { font-family: var(--font-serif); font-size: 13px; color: var(--ink-brown-light); line-height: 1.8; margin-top: 4px; }
 .finale-divider  { width: 40px; height: 1px; background: var(--kintsugi-gold); margin: 8px auto; }
 .finale-question { font-family: var(--font-serif); font-style: italic; font-size: 18px; color: var(--ink-brown-deep); line-height: 1.7; margin-top: 8px; }
+
+/* ============================================================
+   FINALE 3D POP-UP BOOK SCENE
+   ============================================================ */
+#finale-3d-scene {
+  position: absolute;
+  inset: 0;
+  background: var(--body-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.9s ease;
+  z-index: 500;
+  perspective: 1100px;
+  perspective-origin: 50% 26%;
+}
+#finale-3d-scene.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Stage — holds the 3D book, preserves 3D for children */
+.f3d-stage {
+  transform-style: preserve-3d;
+  position: relative;
+  margin-bottom: 50px;
+}
+
+/* The open book — tilted so viewer looks down at it */
+.f3d-book {
+  position: relative;
+  width: 580px;
+  height: 390px;
+  transform: rotateX(36deg);
+  transform-style: preserve-3d;
+}
+
+/* Two-page spread */
+.f3d-spread {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  transform-style: preserve-3d;
+}
+.f3d-left-page {
+  flex: 1;
+  background: var(--parchment-ancient);
+  position: relative;
+  overflow: visible;
+  transform-style: preserve-3d;
+  box-shadow: inset -6px 0 20px rgba(0,0,0,0.13);
+}
+.f3d-right-page {
+  flex: 1;
+  background: var(--parchment-transition);
+  position: relative;
+  overflow: visible;
+  transform-style: preserve-3d;
+  box-shadow: inset 6px 0 20px rgba(0,0,0,0.13);
+}
+
+/* Spine strip in center */
+.f3d-spine {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 10px; height: 100%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg,
+    var(--spine-dark) 0%,
+    var(--kintsugi-gold) 30%,
+    var(--spine-gold) 50%,
+    var(--kintsugi-gold) 70%,
+    var(--spine-dark) 100%
+  );
+  z-index: 10;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Covers — initially closed, swing open on .opening */
+.f3d-cover {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--cover-color);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  z-index: 20;
+  transition: transform 0.95s cubic-bezier(0.645, 0.045, 0.355, 1.000);
+}
+.f3d-cover::before {
+  content: '';
+  position: absolute;
+  inset: 20px;
+  border: 1px solid rgba(var(--spine-gold-rgb), 0.3);
+  pointer-events: none;
+}
+.f3d-cover-l {
+  left: 0;
+  transform-origin: right center;
+  transform: rotateY(0deg) translateZ(2px);
+}
+.f3d-cover-r {
+  right: 0;
+  transform-origin: left center;
+  transform: rotateY(0deg) translateZ(2px);
+  transition-delay: 0.18s;
+}
+.f3d-book.opening .f3d-cover-l { transform: rotateY(-158deg) translateZ(2px); }
+.f3d-book.opening .f3d-cover-r { transform: rotateY(158deg) translateZ(2px); }
+
+/* Base class for all pop-up elements — fold up from page surface */
+.f3d-pop {
+  position: absolute;
+  transform-origin: bottom center;
+  transform: rotateX(90deg);
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.f3d-book.open .f3d-pop { transform: rotateX(0deg); }
+
+/* Central arch — straddles the spine */
+.f3d-arch-wrap {
+  position: absolute;
+  bottom: 0; left: 50%;
+  width: 0; height: 0;
+  transform-style: preserve-3d;
+  z-index: 8;
+}
+.f3d-arch {
+  position: absolute;
+  bottom: 0;
+  left: -115px;
+  width: 230px; height: 260px;
+  background: linear-gradient(160deg,
+    rgba(var(--cover-color-rgb), 0.92) 0%,
+    rgba(var(--cover-color-rgb), 0.70) 100%
+  );
+  border-radius: 115px 115px 0 0;
+  border: 2px solid rgba(var(--spine-gold-rgb), 0.75);
+  border-bottom: none;
+  transform-origin: bottom center;
+  transform: rotateX(90deg);
+  transition: transform 1.05s cubic-bezier(0.34, 1.56, 0.64, 1) 0.95s;
+  box-shadow:
+    0 0 40px rgba(var(--spine-gold-rgb), 0.18),
+    inset 0 0 24px rgba(0,0,0,0.2);
+}
+.f3d-arch::before {
+  content: '';
+  position: absolute;
+  top: 34px; left: 24px; right: 24px;
+  height: 150px;
+  border-radius: 80px 80px 0 0;
+  border: 1px solid rgba(var(--spine-gold-rgb), 0.35);
+  border-bottom: none;
+}
+.f3d-arch::after {
+  content: '✦';
+  position: absolute;
+  top: 24px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 26px;
+  color: var(--spine-gold);
+  text-shadow: 0 0 14px rgba(var(--spine-gold-rgb), 0.9);
+}
+.f3d-book.open .f3d-arch { transform: rotateX(0deg); }
+
+/* Left page — silhouette figure */
+.f3d-figure-l {
+  bottom: 0; right: 28px;
+  width: 72px; height: 170px;
+  background: linear-gradient(180deg, var(--ink-brown) 0%, var(--ink-brown-deep) 100%);
+  border-radius: 36px 36px 0 0;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.35);
+  transition-delay: 1.4s;
+}
+.f3d-figure-l::before {
+  content: '✦';
+  position: absolute;
+  top: 16px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 18px;
+  color: var(--spine-gold);
+}
+
+/* Right page — silhouette figure */
+.f3d-figure-r {
+  bottom: 0; left: 28px;
+  width: 72px; height: 150px;
+  background: linear-gradient(180deg, var(--ink-brown) 0%, var(--ink-brown-deep) 100%);
+  border-radius: 36px 36px 0 0;
+  box-shadow: -2px 0 12px rgba(0,0,0,0.35);
+  transition-delay: 1.65s;
+}
+.f3d-figure-r::before {
+  content: '◆';
+  position: absolute;
+  top: 14px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 15px;
+  color: var(--kintsugi-gold);
+}
+
+/* Small decorative panels on outer edges of pages */
+.f3d-panel-l {
+  bottom: 0; left: 18px;
+  width: 50px; height: 110px;
+  background: rgba(var(--cover-color-rgb), 0.55);
+  border-radius: 25px 25px 0 0;
+  border: 1px solid rgba(var(--spine-gold-rgb), 0.4);
+  transition-delay: 1.9s;
+}
+.f3d-panel-r {
+  bottom: 0; right: 18px;
+  width: 50px; height: 90px;
+  background: rgba(var(--cover-color-rgb), 0.55);
+  border-radius: 25px 25px 0 0;
+  border: 1px solid rgba(var(--spine-gold-rgb), 0.4);
+  transition-delay: 2.1s;
+}
+
+/* Floating gems that drift upward when book is open */
+.f3d-gem {
+  position: absolute;
+  color: var(--spine-gold);
+  pointer-events: none;
+  opacity: 0;
+  font-size: 14px;
+}
+.f3d-book.open .f3d-gem { animation: f3d-gem-rise 2.8s ease-in-out infinite; }
+.f3d-g1 { top: 24px; left: 58px;   animation-delay: 0.4s;  font-size: 17px; color: var(--spine-gold); }
+.f3d-g2 { top: 18px; right: 74px;  animation-delay: 1.0s;  font-size: 12px; }
+.f3d-g3 { top: 46px; left: 148px;  animation-delay: 1.6s;  font-size: 11px; color: var(--kintsugi-gold); }
+.f3d-g4 { top: 36px; right: 148px; animation-delay: 2.2s;  font-size: 19px; color: var(--kintsugi-gold); }
+
+@keyframes f3d-gem-rise {
+  0%   { opacity: 0;   transform: translateY(0)    rotateZ(0deg); }
+  20%  { opacity: 0.9; }
+  80%  { opacity: 0.35; }
+  100% { opacity: 0;   transform: translateY(-80px) rotateZ(360deg); }
+}
+
+/* Bottom caption / UI */
+.f3d-caption-bar {
+  position: absolute;
+  bottom: 36px; left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  opacity: 0;
+  transition: opacity 1s ease 2.6s;
+  z-index: 600;
+  white-space: nowrap;
+}
+#finale-3d-scene.active .f3d-caption-bar { opacity: 1; }
+.f3d-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--spine-gold);
+  letter-spacing: 1.5px;
+  margin-bottom: 14px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+}
+.f3d-close-btn {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(var(--spine-gold-rgb), 0.6);
+  background: none;
+  border: 1px solid rgba(var(--spine-gold-rgb), 0.25);
+  padding: 7px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+.f3d-close-btn:hover {
+  color: var(--spine-gold);
+  border-color: rgba(var(--spine-gold-rgb), 0.6);
+  background: rgba(var(--spine-gold-rgb), 0.07);
+}
+
+/* ============================================================
+   TRIGGER BUTTON — pops up inside finale page after kintsugi
+   ============================================================ */
+.finale-popup-trigger {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
+  color: rgba(var(--spine-gold-rgb), 0.72);
+  background: none;
+  border: 1px solid rgba(var(--spine-gold-rgb), 0.28);
+  padding: 8px 20px;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  margin-top: 18px;
+  opacity: 0;
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  transition: opacity 0.5s ease,
+              transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+              color 0.2s ease,
+              border-color 0.2s ease;
+  display: block;
+  width: 100%;
+}
+.finale-popup-trigger.visible { opacity: 1; transform: scaleY(1); }
+.finale-popup-trigger:hover   { color: var(--spine-gold); border-color: rgba(var(--spine-gold-rgb), 0.55); }
+
+/* ============================================================
+   PHOTO STANDEES inside the 3D pop-up book
+   ============================================================ */
+.f3d-ps {
+  background-size: cover;
+  background-position: center top;
+  border-radius: 4px 4px 0 0;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.55), 0 0 0 2px rgba(255,255,255,0.12);
+}
+.f3d-ps-l {
+  bottom: 0; left: 12px;
+  width: 56px; height: 138px;
+  transition-delay: 1.85s;
+}
+.f3d-ps-r {
+  bottom: 0; right: 12px;
+  width: 56px; height: 138px;
+  transition-delay: 2.05s;
+}
+
+/* ============================================================
+   RECOMMENCER BUTTON inside the 3D pop-up book overlay
+   ============================================================ */
+.f3d-recommencer-btn {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15px;
+  color: rgba(var(--spine-gold-rgb), 0.85);
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(var(--spine-gold-rgb), 0.38);
+  padding: 10px 36px;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 1.5px;
+  margin-top: 12px;
+  transition: color 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+  display: block;
+}
+.f3d-recommencer-btn:hover {
+  color: var(--spine-gold);
+  border-color: rgba(var(--spine-gold-rgb), 0.7);
+  background: rgba(var(--spine-gold-rgb), 0.1);
+}

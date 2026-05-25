@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="assets/images/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="js/turn.min.js"></script>
   <link rel="stylesheet" href="css/base.css">
@@ -84,17 +84,59 @@
     FLAT BOOK (main reading experience)
     ==================================================== -->
     <div id="book-flat">
-      
+
       <div id="flipbook"></div>
-      
+
       <div id="nav-bar">
         <div class="nav-center">
           <div class="spread-counter" id="spread-counter">1 / 14</div>
           <div class="dot-indicators" id="dot-indicators"></div>
         </div>
       </div>
-      
+
     </div>
+
+    <!-- ====================================================
+    FINALE — 3D POP-UP BOOK SCENE
+    ==================================================== -->
+    <div id="finale-3d-scene">
+      <div class="f3d-stage">
+        <div class="f3d-book" id="f3d-book">
+
+          <div class="f3d-spread">
+            <div class="f3d-left-page">
+              <div class="f3d-pop f3d-figure-l"></div>
+              <div class="f3d-pop f3d-panel-l"></div>
+              <div class="f3d-pop f3d-ps f3d-ps-l" style="background-image:url('assets/images/bio/Jeanne_Chauvin.jpg')"></div>
+              <div class="f3d-gem f3d-g1">✦</div>
+              <div class="f3d-gem f3d-g3">◆</div>
+            </div>
+            <div class="f3d-right-page">
+              <div class="f3d-pop f3d-figure-r"></div>
+              <div class="f3d-pop f3d-panel-r"></div>
+              <div class="f3d-pop f3d-ps f3d-ps-r" style="background-image:url('assets/images/bio/marie-curie.jpg')"></div>
+              <div class="f3d-gem f3d-g2">✦</div>
+              <div class="f3d-gem f3d-g4">◆</div>
+            </div>
+          </div>
+
+          <div class="f3d-spine"></div>
+
+          <div class="f3d-arch-wrap">
+            <div class="f3d-arch"></div>
+          </div>
+
+          <div class="f3d-cover f3d-cover-l"></div>
+          <div class="f3d-cover f3d-cover-r"></div>
+        </div>
+      </div>
+
+      <div class="f3d-caption-bar">
+        <div class="f3d-quote">La perception se forge.<br>Grâce à elles. Grâce à nous.</div>
+        <button class="f3d-recommencer-btn" id="recommencer-btn">Recommencer</button>
+      </div>
+    </div>
+
   </div>
   
   <script src="js/data.js"></script>
