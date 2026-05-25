@@ -54,7 +54,7 @@ Cette œuvre interroge les stéréotypes de genre à travers quatre époques ré
 Non pas la culpabilité, mais la reconnaissance.
 Non pas la colère, mais le mouvement.
 
-La page finale pose une affirmation au visiteur : *"Chaque perception qui change marque un tournant."* La scène pop-up 3D qui suit n'est pas une conclusion — c'est une ouverture. Le bouton « Recommencer » n'est pas un retour en arrière : c'est une invitation à relire avec un regard différent.
+La page finale pose une affirmation au visiteur : *"Les perceptions évoluent et les réalités continuent de se transformer."* La scène pop-up 3D qui suit n'est pas une conclusion — c'est une ouverture. Le bouton « Recommencer » n'est pas un retour en arrière : c'est une invitation à relire avec un regard différent.
 
 ## 8. Sources citées dans l'œuvre
 - **Marie Curie :** Ève Curie, *Madame Curie*, Gallimard, 1938 — Wikiquote FR — Nobel Prize official archives

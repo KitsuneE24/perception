@@ -294,7 +294,7 @@ function finaleLeftHTML() {
         <em>Et toutes celles et ceux dont on n'a pas encore écrit le nom.</em>
       </div>
       <div class="finale-central-message">
-        Ces exemples montrent une évolution réelle : les femmes ont progressivement accédé à des espaces autrefois fermés dans le droit, la science ou le sport. Les formes de résistance n’ont pas disparu, mais elles ont changé de nature, accompagnant l’ouverture progressive des institutions et des pratiques sociales.
+        Ces exemples témoignent d’évolutions concrètes : les femmes ont progressivement accédé à des espaces autrefois fermés dans le droit, la science ou le sport. Les dynamiques en présence ont elles aussi évolué, en lien avec l’ouverture progressive des institutions et des pratiques sociales.  
       </div>
     </div>`;
 }
@@ -393,7 +393,7 @@ function finaleRightHTML() {
         <div class="finale-line2">Grâce à elles. Grâce à nous.</div>
         <div class="finale-divider" id="finale-divider" style="opacity:0;margin:12px auto;"></div>
         <div class="finale-question" id="finale-question" style="opacity:0;">
-          Chaque perception qui change<br>marque un tournant.
+          Les perceptions évoluent et les réalités continuent de se transformer.
         </div>
         <button class="finale-popup-trigger" id="finale-popup-trigger">✦ Voir la suite</button>
       </div>

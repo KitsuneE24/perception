@@ -39,7 +39,7 @@ const pages = [
     description: 'Elle a étudié le droit. Elle a voulu le plaider. On lui a dit non.<br>Elle a plaidé quand même.',
     biasQuote: 'la profession d\'avocat étant depuis toujours un office viril',
     biasQuoteAttrib: '— Cour d\'appel de Paris, 30 novembre 1897',
-    decode: '\'est pas un titre. C\'est une porte.</b><br>En entrant dans ce prétoire, Chauvin ne demandait pas la permission d\'exister dans le droit — elle le faisait, là où aucune n\'avait osé avant. Et ce faisant, elle ne prouvait pas que c\'était possible : elle rendait absurde que ça ne l\'ait pas été.',
+    decode: 'C\'est pas un titre. C\'est une porte.</b><br>En entrant dans ce prétoire, Chauvin ne demandait pas la permission d\'exister dans le droit — elle le faisait, là où aucune n\'avait osé avant. Et ce faisant, <b>elle ne prouvait pas que c\'était possible : elle rendait absurde que ça ne l\'ait pas été.</b>',
     photoImg: 'assets/images/bio/Jeanne_Chauvin.jpg',
     photoCaption: 'Jeanne Chauvin, première avocate plaidante'
   },
@@ -57,10 +57,10 @@ const pages = [
   {
     id: 3, type: 'bio', era: 'ancient',
     year: '1911', domain: 'Sciences', location: 'Pologne', name: 'Marie Curie',
-    description: 'Elle ne cherchait pas à prouver qu\'elle pouvait. Elle cherchait à comprendre le monde. Deux Nobel plus tard, la question ne se posait plus.',
+    description: 'Elle ne cherchait pas à prouver qu\'elle pouvait. Elle cherchait à comprendre le monde. Deux Nobel plus tard, plus personne ne doutait de sa légitimité.',
     biasQuote: 'there was, in its opinion, an immutable tradition against the election of women, which it seemed eminently wise to respect.',
     biasQuoteAttrib: '— Institut de France, débat rapporté par Nature, 1911',
-    decode: '<b>L\'Académie a voté. La tradition a prévalu. Curie a persévéré.</b><br>Il n\'y a pas de réponse plus simple à donner à ceux qui ferment les portes : persévérer, jusqu\'à ce que la preuve soit plus grande que le préjugé.',
+    decode: 'L\'Académie a voté. La tradition a prévalu. Curie a persévéré.<br>Il n\'y a pas de réponse plus simple à donner à ceux qui ferment les portes : <b>persévérer, jusqu\'à ce que la preuve soit plus grande que le préjugé.</b>',
     photoImg: 'assets/images/bio/marie-curie.jpg',
     photoCaption: 'Maria Skłodowska, vers 1900'
   },
@@ -78,10 +78,10 @@ const pages = [
   {
     id: 5, type: 'bio', era: 'modern',
     year: '1967', domain: 'Sport', location: 'États-Unis', name: 'Kathrine Switzer',
-    description: 'Dossard 261. Le directeur de course tente de l\'arracher. Elle court. Cette image n\'a pas vieilli.',
+    description: 'Dossard 261. Le directeur de course tente de l\'arracher. Elle a continué de courir.',
     biasQuote: 'Get the hell out of my race and give me those numbers!',
     biasQuoteAttrib: '— Jock Semple, Boston Athletic Association, Marathon de Boston, 19 avril 1967',
-    decode: '<b>Une seule course. Une seule photo.</b><br>Et cette image a couru plus loin qu\'elle — autour du monde, et dans le temps. Switzer a continué de se battre jusqu\'en 1972, année où le marathon de Boston ouvre officiellement ses portes aux femmes. L\'action vient toujours avant le droit.',
+    decode: 'Une seule course. Une seule photo.<br>Et cette image a couru plus loin qu\'elle — autour du monde, et dans le temps. Switzer a continué de se battre jusqu\'en 1972, année où le marathon de Boston ouvre officiellement ses portes aux femmes. <b>L\’action est le moteur du changement.</b>',
     photoImg: 'assets/images/bio/kathrine-switzer1.jpg',
     photoCaption: 'Kathrine Switzer, dossard 261, Boston 1967'
   },
@@ -98,11 +98,11 @@ const pages = [
   /* 7 — BIO Anne Hathaway */
   {
     id: 7, type: 'bio', era: 'contemporary',
-    year: '2026', domain: 'Internet', location: '', name: 'Anne Hathaway',
-    description: 'La résistance a changé de forme. Ce qu\'on essaie d\'éteindre aujourd\'hui, c\'est une voix. <br>«they chose action in a world that expects silence.»',
+    year: '2026', domain: 'Cinéma', location: 'États-Unis', name: 'Anne Hathaway',
+    description: '«they chose action in a world that expects silence.»<br>Elles ont choisi d\'agir dans un monde qui attend qu\'on se taise.',
     biasQuote: 'our choosing to celebrate today does not signal that we are here to accommodate injustice. No, our celebration today affirms our determination to outlast it.',
     biasQuoteAttrib: '— ONU – Journée internationale des droits des femmes,2026',
-    decode: '<b>L\'espace public n\'est plus seulement une salle d\'audience ou un starting-block.</b><br> Il est partout — et partout, il se rejoue la même question : est-ce que cette présence est légitime ? Est-ce que cette voix a le droit d\'être là ? La réponse se forge encore. Grâce à elles. Grâce à nous.',
+    decode: 'L\'espace public n\'est plus seulement une salle d\'audience ou un starting-block.<br> Il est partout — et partout, il se rejoue la même question : cette présence est-elle reconnue ? Cette voix est-elle entendue ? <b> Les réponses se construisent encore, portées par les avancées d\’hier et les engagements d\’aujourd\’hui.</b>',
     photoImg: 'assets/images/bio/anne_hathaway.jpg',
     photoCaption: 'Journée internationale des droits des femmes, 2026'
   },
