@@ -55,34 +55,117 @@
 /* ============================================================
    POP-UP ICONS
    ============================================================ */
-.popup-area { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 16px; position: relative; }
+.popup-area { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 16px; position: relative; }
 .popup-element { transform: scaleY(0); transform-origin: bottom center; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); will-change: transform; }
 .popup-element.visible { transform: scaleY(1); }
 .popup-element.collapsing { transform: scaleY(0); transition: transform 0.15s ease-in; }
 
-/* ============================================================
-   PAPER STANDEES — bio photo figures on transition pages
-   ============================================================ */
-.standee-group {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  align-items: flex-end;
-  margin: 35px;
-}
-.paper-standee {
-  width: 200px;
-  height: 310px;
-  background-size: cover;
-  background-position: center;
-  border-radius: 4px 4px 0 0;
-  box-shadow:
-    0 0 0 5px rgba(255,255,255,0.88),
-    3px 6px 20px rgba(0,0,0,0.45);
-}
 
 .icon-popup {
   width: 10vw;
+}
+
+/* ============================================================
+   POPUP LABELS — animated word below icons
+   ============================================================ */
+
+@keyframes popup-label-fade {
+  to { opacity: 1; }
+}
+
+@keyframes popup-label-spin {
+  from { transform: perspective(400px) rotateX(120deg); }
+  to   { transform: perspective(400px) rotateX(0deg); }
+}
+
+@keyframes popup-label-shimmer {
+  0%   { text-shadow: none; }
+  50%  { text-shadow: 0 0 14px rgba(212,169,106,0.95), 0 0 30px rgba(107,45,139,0.5); }
+  100% { text-shadow: 0 0 6px rgba(212,169,106,0.35); }
+}
+
+@keyframes popup-big-word-spin {
+  from { transform: perspective(900px) rotateX(120deg); }
+  to   { transform: perspective(900px) rotateX(0deg); }
+}
+
+@keyframes popup-big-word-shimmer {
+  0%   { text-shadow: none; }
+  50%  { text-shadow: 0 0 22px rgba(212,169,106,0.95), 0 0 50px rgba(107,45,139,0.55); }
+  100% { text-shadow: 0 0 10px rgba(212,169,106,0.3); }
+}
+
+/* small label below icon — used on cover page */
+.icon-label-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup-label {
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--spine-gold);
+  text-align: center;
+  margin-top: 10px;
+
+  opacity: 0;
+  transform: perspective(400px) rotateX(120deg);
+  transform-origin: 50% 100%;
+}
+
+.popup-element.visible .popup-label {
+  animation:
+    popup-label-fade    0.01s cubic-bezier(0.14,1.23,0.33,1.16) 0.55s forwards,
+    popup-label-spin    1.5s  cubic-bezier(0.14,1.23,0.33,1.16) 0.55s forwards,
+    popup-label-shimmer 0.55s ease-in-out 2.3s forwards;
+}
+
+/* icon + big word together — transition pages */
+.popup-icon-word {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* bypass the scaleY bounce — only the label animates */
+  transform: scaleY(1) !important;
+  transition: none !important;
+}
+
+.popup-icon-word .icon-popup {
+  position: absolute;
+  width: 82%;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.popup-big-word {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 6.5rem;
+  line-height: 1;
+  letter-spacing: 3px;
+  color: var(--spine-gold);
+  text-align: center;
+
+  opacity: 0;
+  transform: perspective(900px) rotateX(120deg);
+  transform-origin: 50% 100%;
+}
+
+.popup-element.visible .popup-big-word {
+  animation:
+    popup-label-fade    0.01s cubic-bezier(0.14,1.23,0.33,1.16) 0.3s forwards,
+    popup-big-word-spin 1.5s  cubic-bezier(0.14,1.23,0.33,1.16) 0.3s forwards;
 }
 /* ============================================================
    COVER PAGE (left)

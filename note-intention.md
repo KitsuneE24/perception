@@ -9,15 +9,24 @@ Format : livre pop-up numérique animé, accessible sur navigateur sans installa
 
 Structure : 10 spreads (20 pages), organisés en :
 - 1 couverture (avec illustration pop-up d'un œil stylisé)
-- 4 biographies × 2 spreads : une page de portrait (photo plein-format + nom + description) et une page de réaction (citation biaisée sourcée + décodage)
-- 3 spreads de transition (illustrations pop-up animées reliant les périodes)
+- 4 biographies × 2 pages : une page de portrait (photo plein-format + nom + description) et une page de réaction (citation biaisée sourcée + décodage)
+- 4 spreads de transition (illustrations pop-up animées reliant les périodes)
 - 1 finale en deux temps : animation kintsugi puis scène de livre pop-up 3D
 
-Ordre des quatre femmes présentées :
-1. Jeanne Chauvin — Droit — 1897 — France
-2. Marie Curie — Sciences — 1911 — Pologne
-3. Kathrine Switzer — Sport — 1967 — États-Unis
-4. Anne Hathaway — Internet — 2026
+Ordre des spreads :
+
+| Spread | Contenu |
+|--------|---------|
+| 0 | Couverture |
+| 1 | Bio Jeanne Chauvin — Droit — 1897 — France |
+| 2 | Transition Chauvin → Curie |
+| 3 | Bio Marie Curie — Sciences — 1911 — Pologne |
+| 4 | Transition Curie → Switzer |
+| 5 | Bio Kathrine Switzer — Sport — 1967 — États-Unis |
+| 6 | Transition Switzer → Hathaway |
+| 7 | Bio Anne Hathaway — Cinéma — 2026 |
+| 8 | Transition Hathaway → Finale |
+| 9 | Finale — kintsugi + livre pop-up 3D |
 
 ## 3. Intention artistique
 Ce livre explore comment la perception des femmes dans l'espace public a évolué à travers quatre siècles et quatre domaines. Chaque personne représente un moment de rupture — un acte concret qui a rendu visible ce qui était jusqu'alors ignoré ou interdit.
@@ -40,9 +49,9 @@ Cette œuvre interroge les stéréotypes de genre à travers quatre époques ré
 
 **Le kintsugi en page finale :** l'art japonais de réparer la céramique brisée avec de l'or. La fissure n'est pas effacée — elle devient la partie la plus précieuse. Les luttes de ces femmes ne sont pas des cicatrices à cacher, elles sont la structure visible de ce qui a changé. L'animation dessine les fissures une à une avant qu'elles ne virent à l'or.
 
-**Le livre pop-up 3D comme révélation finale :** après le kintsugi, le livre se referme sur lui-même et se révèle sous une nouvelle forme — un livre pop-up vu du dessus, en trois dimensions. Les couvertures s'écartent, une arche centrale surgit de la reliure, les silhouettes des femmes se lèvent depuis les pages comme des figurines de papier. La structure formelle de l'œuvre (un livre) devient son propre dernier mot : quelque chose qui s'ouvre, encore une fois, et qui révèle. Le bouton « Recommencer » invite à refaire la traversée.
+**Le livre pop-up 3D comme révélation finale :** après le kintsugi, le livre se referme sur lui-même et se révèle sous une nouvelle forme — un livre pop-up vu du dessus, en trois dimensions. Les couvertures s'écartent, les silhouettes des femmes se lèvent depuis les pages comme des figurines de papier. La structure formelle de l'œuvre (un livre) devient son propre dernier mot : quelque chose qui s'ouvre, encore une fois, et qui révèle. Le bouton « Recommencer » invite à refaire la traversée.
 
-**Le livre pop-up :** un objet qui s'ouvre, qui révèle, qui demande un geste du lecteur. Chaque illustration surgit depuis la page comme une figure mécanique — la science de Curie comme orbites atomiques, la justice de Chauvin comme balance, la course de Switzer avec son dossard 261, le miroir comme image de la perception contemporaine.
+**Le livre pop-up :** un objet qui s'ouvre, qui révèle, qui demande un geste du lecteur. Chaque illustration surgit depuis la page comme une figure mécanique — la science de Curie comme orbites atomiques, la justice de Chauvin comme balance, la course de Switzer avec son dossard 261, la perception contemporaine comme un œil.
 
 **L'évolution graphique :** le livre vieillit et se modernise avec les pages — du parchemin ancien (`#f0e6cc`) au blanc contemporain (`#faf8f4`). Le fond sombre, le papier crème, la typographie serif (EB Garamond) créent un espace hors du temps qui ancre chaque femme dans son époque tout en les réunissant.
 

@@ -148,9 +148,13 @@ function initTurnJs() {
         spreadCtr.textContent = (currentIndex + 1) + ' / ' + pages.length;
         updateDots();
 
-        // Animate popup elements on the newly visible spread
+        // Animate popup elements on the newly visible spread.
+        // Derive the left page from currentIndex so the selector is correct
+        // for both forward and backward turns (turn.js may report the right
+        // page number when going backward, which would miss left-page popups).
+        var leftPage = currentIndex * 2 + 2;
         $('#flipbook .popup-element').removeClass('visible');
-        $('.p' + page + ', .p' + (page + 1))
+        $('.p' + leftPage + ', .p' + (leftPage + 1))
           .find('.popup-element')
           .each(function(i) {
             var $el = $(this);
@@ -268,17 +272,18 @@ function bioLeftHTML(page) {
     </div>`;
 }
 
+function iconWithLabel(svgHtml, label) {
+  if (!label) return svgHtml;
+  return `<div class="icon-label-wrap">${svgHtml}<span class="popup-label">${label}</span></div>`;
+}
+
 function transitionLeftHTML(page) {
-  const photos = page.photosLeft || [];
-  const standeesHTML = photos.length
-    ? `<div class="standee-group">${photos.map(src =>
-        `<div class="popup-element"><div class="paper-standee" style="background-image:url('${src}')"></div></div>`
-      ).join('')}</div>`
-    : '';
   return `
     <div class="popup-area">
-      <div class="popup-element">${page.svgLeft}</div>
-      ${standeesHTML}
+      <div class="popup-element popup-icon-word">
+        ${page.svgLeft}
+        ${page.labelLeft ? `<span class="popup-big-word">${page.labelLeft}</span>` : ''}
+      </div>
     </div>`;
 }
 
@@ -290,7 +295,7 @@ function finaleLeftHTML() {
         Jeanne Chauvin · Droit · 1897<br>
         Marie Curie · Sciences · 1911<br>
         Kathrine Switzer · Sport · 1967<br>
-        Anne Hathaway · Internet · 2026<br>
+        Anne Hathaway · Cinéma · 2026<br>
         <em>Et toutes celles et ceux dont on n'a pas encore écrit le nom.</em>
       </div>
       <div class="finale-central-message">
@@ -313,7 +318,7 @@ function coverRightHTML(page) {
   return `
     <div class="cover-right">
       <div class="popup-area">
-        <div class="popup-element">${page.svgPopup}</div>
+        <div class="popup-element">${iconWithLabel(page.svgPopup, page.labelPopup)}</div>
       </div>
       <div class="cover-right-quote">
         « La perception n'est jamais figée.<br>
@@ -336,16 +341,12 @@ function bioRightHTML(page) {
 }
 
 function transitionRightHTML(page) {
-  const photos = page.photosRight || [];
-  const standeesHTML = photos.length
-    ? `<div class="standee-group">${photos.map(src =>
-        `<div class="popup-element"><div class="paper-standee" style="background-image:url('${src}')"></div></div>`
-      ).join('')}</div>`
-    : '';
   return `
     <div class="popup-area">
-      <div class="popup-element">${page.svgRight}</div>
-      ${standeesHTML}
+      <div class="popup-element popup-icon-word">
+        ${page.svgRight}
+        ${page.labelRight ? `<span class="popup-big-word">${page.labelRight}</span>` : ''}
+      </div>
     </div>`;
 }
 

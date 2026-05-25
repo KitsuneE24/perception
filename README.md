@@ -9,19 +9,23 @@ Une œuvre sur la perception des femmes dans l'espace public, à travers quatre 
 | Spread | Contenu |
 |--------|---------|
 | 0 | Couverture — illustration pop-up (œil stylisé) |
-| 1–2 | Jeanne Chauvin · Droit · 1897 · France |
-| 3–4 | Marie Curie · Sciences · 1911 · Pologne |
-| 5–6 | Kathrine Switzer · Sport · 1967 · États-Unis |
-| 7–8 | Anne Hathaway · Internet · 2026 |
+| 1 | Bio Jeanne Chauvin · Droit · 1897 · France |
+| 2 | Transition Chauvin → Curie (icônes animées) |
+| 3 | Bio Marie Curie · Sciences · 1911 · Pologne |
+| 4 | Transition Curie → Switzer (icônes animées) |
+| 5 | Bio Kathrine Switzer · Sport · 1967 · États-Unis |
+| 6 | Transition Switzer → Hathaway (icônes animées) |
+| 7 | Bio Anne Hathaway · Cinéma · 2026 |
+| 8 | Transition Hathaway → Finale (icônes animées) |
 | 9 | Finale — animation kintsugi → livre pop-up 3D |
 
-Chaque bio occupe deux pages : photo plein-format (gauche) + citation biaisée et décodage (droite). Les spreads de transition utilisent des illustrations pop-up animées (icônes PNG). La page finale enchaîne deux séquences : l'animation kintsugi puis une scène de livre pop-up 3D.
+Chaque bio occupe deux pages : photo plein-format (gauche) + citation biaisée et décodage (droite). Les spreads de transition affichent deux icônes animées en pop-up, une par page. La page finale enchaîne deux séquences : l'animation kintsugi puis une scène de livre pop-up 3D.
 
 ## Séquence finale (spread 9)
 
 1. L'animation kintsugi dessine des fissures dorées sur la couverture du livre, le texte final apparaît progressivement.
 2. Un bouton « ✦ Voir la suite » surgit depuis la page (animation pop-up).
-3. Le clic déclenche une scène plein-écran : un livre pop-up 3D vu du dessus s'ouvre — les couvertures s'écartent, une arche centrale et des silhouettes surgissent des pages, deux photos des femmes se lèvent comme des figurines.
+3. Le clic déclenche une scène plein-écran : un livre pop-up 3D vu du dessus s'ouvre — les couvertures s'écartent, des silhouettes et icônes surgissent des pages comme des figurines de papier.
 4. Un bouton « Recommencer » ramène au début du livre.
 
 ## Fichiers
@@ -63,8 +67,8 @@ Ouvrir `index.html` dans un navigateur. Aucune dépendance à installer — jQue
 
 ## Navigation
 
-- **Clic droit** sur le livre → page suivante
-- **Clic gauche** → page précédente
+- **Clic moitié droite** du livre → page suivante
+- **Clic moitié gauche** → page précédente
 - **Glisser les coins** → animation de feuilletage
 - **Flèches clavier** → navigation entre les spreads
 - **Points de navigation** (bas de page) → accès direct à chaque section

@@ -16,7 +16,7 @@ function wireFinale() {
       const scene3d = document.getElementById('finale-3d-scene');
       const book3d  = document.getElementById('f3d-book');
       scene3d.classList.remove('active');
-      book3d.classList.remove('opening', 'open');
+      book3d.classList.remove('open');
       resetKintsugi();
       currentIndex   = 0;
       kintsugiPlayed = false;
@@ -30,8 +30,7 @@ function showPopupBook() {
   const book3d  = document.getElementById('f3d-book');
   if (!scene3d) return;
   scene3d.classList.add('active');
-  setTimeout(() => { book3d.classList.add('opening'); }, 900);
-  setTimeout(() => { book3d.classList.add('open');    }, 2000);
+  setTimeout(() => { book3d.classList.add('open'); }, 900);
 }
 
 function resetKintsugi() {

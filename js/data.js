@@ -48,9 +48,7 @@ const pages = [
   {
     id: 2, type: 'transition', era: 'ancient',
     svgLeft: SVG_CHAUVIN, labelLeft: 'Droit',
-    svgRight: SVG_CURIE,  labelRight: 'Science',
-    photosLeft:  ['assets/images/bio/Jeanne_Chauvin.jpg'],
-    photosRight: ['assets/images/bio/marie-curie.jpg']
+    svgRight: SVG_CURIE,  labelRight: 'Science'
   },
 
   /* 3 — BIO Marie Curie*/
@@ -69,9 +67,7 @@ const pages = [
   {
     id: 4, type: 'transition', era: 'transition',
     svgLeft: SVG_CHAUVIN,  labelLeft: 'Droit',
-    svgRight: SVG_SWITZER, labelRight: 'Sport',
-    photosLeft:  ['assets/images/bio/marie-curie.jpg'],
-    photosRight: ['assets/images/bio/kathrine-switzer1.jpg']
+    svgRight: SVG_SWITZER, labelRight: 'Sport'
   },
 
   /* 5 — BIO Kathrine Switzer */
@@ -89,10 +85,8 @@ const pages = [
   /* 6 — TRANSITION Switzer → Anne Hathaway */
   {
     id: 6, type: 'transition', era: 'modern',
-    svgLeft: SVG_SWITZER,
-    svgRight: SVG_HATHAWAY,
-    photosLeft:  ['assets/images/bio/kathrine-switzer1.jpg'],
-    photosRight: ['assets/images/bio/anne_hathaway.jpg']
+    svgLeft: SVG_SWITZER,   labelLeft: 'Sport',
+    svgRight: SVG_HATHAWAY, labelRight: 'Expression'
   },
 
   /* 7 — BIO Anne Hathaway */
@@ -110,10 +104,8 @@ const pages = [
   /* 8 — TRANSITION Anne Hathaway → Finale */
   {
     id: 8, type: 'transition', era: 'contemporary',
-    svgLeft: SVG_HATHAWAY,
-    svgRight: SVG_EYE,
-    photosLeft:  ['assets/images/bio/anne_hathaway.jpg'],
-    photosRight: []
+    svgLeft: SVG_HATHAWAY, labelLeft: 'Expression',
+    svgRight: SVG_EYE,     labelRight: 'Perception'
   },
 
   /* 9 — FINALE */
