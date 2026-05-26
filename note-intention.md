@@ -79,3 +79,10 @@ La page finale pose une affirmation au visiteur : *"Les perceptions évoluent et
   - `Jeanne_Chauvin.jpg` — Wikimedia Commons, domaine public
   - `kathrine-switzer1.jpg` — dossard 261, marathon de Boston, 19 avril 1967 (Boston Herald / AP) — Wikimedia Commons
   - `anne_hathaway.jpg` — Journée internationale des droits des femmes, 2026
+ 
+## 9. Icons utilisees - Flaticon
+- perception : Futuer - https://www.flaticon.com/fr/icone-gratuite/perception_7389524?related_id=7389524&origin=search
+- law : ultimatearm - https://www.flaticon.com/free-icon/law_4072758?related_id=4073226&origin=search
+- atome : Freepik - https://www.flaticon.com/fr/icone-gratuite/atome_106226
+- running : Freepik - https://www.flaticon.com/free-icon/running_5024791?related_id=5024846&origin=search
+- moving : Konkapp - https://www.flaticon.com/free-icon/moving_7554705?related_id=7554745&origin=search
