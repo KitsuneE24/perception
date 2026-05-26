@@ -25,21 +25,6 @@
   position: relative;
 }
 
-/* Seal the center gap with a soft binding shadow */
-#flipbook::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: calc(50% - 2px);
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(to right,
-    rgba(0,0,0,0.18),
-    rgba(0,0,0,0.06) 50%,
-    rgba(0,0,0,0.18));
-  pointer-events: none;
-  z-index: 5;
-}
 
 #flipbook .turn-page-wrapper {
   box-shadow: none !important;
@@ -141,7 +126,7 @@
 .popup-icon-word .icon-popup {
   position: absolute;
   width: 82%;
-  opacity: 0.1;
+  opacity: 0;   /* animation de reveal gère l'apparition */
   pointer-events: none;
 }
 
@@ -151,7 +136,7 @@
   display: block;
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 6.5rem;
+  font-size: 5rem;
   line-height: 1;
   letter-spacing: 3px;
   color: var(--spine-gold);
@@ -166,6 +151,107 @@
   animation:
     popup-label-fade    0.01s cubic-bezier(0.14,1.23,0.33,1.16) 0.3s forwards,
     popup-big-word-spin 1.5s  cubic-bezier(0.14,1.23,0.33,1.16) 0.3s forwards;
+}
+
+/* ============================================================
+   TRANSITION PAGES — Animations pop-up book
+   ============================================================ */
+
+/* Icône — apparition depuis le côté reliure */
+.t-page-left.popup-element.visible .icon-popup {
+  animation: t-icon-from-right 2s ease-out 0.05s forwards;
+}
+.t-page-right.popup-element.visible .icon-popup {
+  animation: t-icon-from-left  2s ease-out 0.05s forwards;
+}
+
+/* Mot — rise pop-up book, plus dramatique que la version cover */
+.popup-icon-word.popup-element.visible .popup-big-word {
+  animation:
+    popup-label-fade 0.01s linear 0.2s forwards,
+    t-word-rise      1.35s cubic-bezier(0.22, 1.15, 0.36, 1) 0.2s forwards;
+}
+
+/* ---- Keyframes ---- */
+@keyframes t-icon-from-right {
+  from { opacity: 0; transform: translateX(22px) scale(0.88); }
+  55%  { opacity: 0.13; transform: translateX(-3px) scale(1.02); }
+  to   { opacity: 0.1;  transform: translateX(0) scale(1); }
+}
+
+@keyframes t-icon-from-left {
+  from { opacity: 0; transform: translateX(-22px) scale(0.88); }
+  55%  { opacity: 0.13; transform: translateX(3px) scale(1.02); }
+  to   { opacity: 0.1;  transform: translateX(0) scale(1); }
+}
+
+/* Œil : scan horizontal lent, comme un regard qui parcourt la scène */
+@keyframes t-icon-scan {
+  0%, 15%, 85%, 100% { transform: translateX(0); }
+  40%                { transform: translateX(5px); }
+  60%                { transform: translateX(-5px); }
+}
+/* Balance : pendule symétrique avec easing naturel */
+@keyframes t-icon-balance {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(3deg); }
+  75%      { transform: rotate(-3deg); }
+}
+/* Atome : rotation orbitale lente et continue */
+@keyframes t-icon-orbit {
+  to { transform: rotate(360deg); }
+}
+/* Running : rebond régulier, rythme de jogging (~160 bpm) */
+@keyframes t-icon-run {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+/* Cinéma : légère pulsation, comme la respiration d'un projecteur */
+@keyframes t-icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.04); }
+}
+
+/* law — page gauche (T2, T4) */
+.t-page-left.popup-icon-word.popup-element.visible [alt="law"].icon-popup {
+  animation: t-icon-from-right 2s ease-out    0.05s forwards,
+             t-icon-balance    4s ease-in-out 2.2s  infinite;
+}
+/* atome — page droite (T2) */
+.t-page-right.popup-icon-word.popup-element.visible [alt="atome"].icon-popup {
+  animation: t-icon-from-left 2s  ease-out 0.05s forwards,
+             t-icon-orbit     20s linear   2.2s  infinite;
+}
+/* running — page droite (T4) et gauche (T6) */
+.t-page-right.popup-icon-word.popup-element.visible [alt="running"].icon-popup {
+  animation: t-icon-from-left  2s   ease-out    0.05s forwards,
+             t-icon-run        0.8s ease-in-out 2.2s  infinite;
+}
+.t-page-left.popup-icon-word.popup-element.visible [alt="running"].icon-popup {
+  animation: t-icon-from-right 2s   ease-out    0.05s forwards,
+             t-icon-run        0.8s ease-in-out 2.2s  infinite;
+}
+/* moving — page droite (T6) et gauche (T8) */
+.t-page-right.popup-icon-word.popup-element.visible [alt="moving"].icon-popup {
+  animation: t-icon-from-left  2s   ease-out    0.05s forwards,
+             t-icon-pulse      3s   ease-in-out 2.2s  infinite;
+}
+.t-page-left.popup-icon-word.popup-element.visible [alt="moving"].icon-popup {
+  animation: t-icon-from-right 2s   ease-out    0.05s forwards,
+             t-icon-pulse      3s   ease-in-out 2.2s  infinite;
+}
+/* perception (œil) — page droite (T8) */
+.t-page-right.popup-icon-word.popup-element.visible [alt="perception"].icon-popup {
+  animation: t-icon-from-left 2s ease-out    0.05s forwards,
+             t-icon-scan      6s ease-in-out 2.2s  infinite;
+}
+
+@keyframes t-word-rise {
+  0%   { transform: perspective(900px) rotateX(90deg) translateY(55px) scaleY(0.6); }
+  48%  { transform: perspective(900px) rotateX(-11deg) translateY(-9px) scaleY(1.03); }
+  68%  { transform: perspective(900px) rotateX(4deg)   translateY(3px)  scaleY(0.99); }
+  84%  { transform: perspective(900px) rotateX(-1.5deg) translateY(-1px) scaleY(1); }
+  100% { transform: perspective(900px) rotateX(0deg)   translateY(0)    scaleY(1); }
 }
 /* ============================================================
    COVER PAGE (left)

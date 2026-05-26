@@ -26,350 +26,80 @@
 .finale-divider  { width: 40px; height: 1px; background: var(--kintsugi-gold); margin: 8px auto; }
 .finale-question { font-family: var(--font-serif); font-style: italic; font-size: 18px; color: var(--ink-brown-deep); line-height: 1.7; margin-top: 8px; }
 
-/* ============================================================
-   FINALE 3D POP-UP BOOK SCENE
-   ============================================================ */
-#finale-3d-scene {
+/* Canvas particules dorées */
+.gold-canvas {
   position: absolute;
-  inset: 0;
-  background: var(--body-bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.9s ease;
-  z-index: 500;
-  perspective: 1100px;
-  perspective-origin: 50% 20%;
-}
-#finale-3d-scene.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-/* Stage — holds the 3D book, preserves 3D for children */
-.f3d-stage {
-  transform-style: preserve-3d;
-  position: relative;
-  margin-bottom: 50px;
-}
-
-/* The open book — tilted so viewer looks down at it */
-.f3d-book {
-  position: relative;
-  width: 580px;
-  height: 390px;
-  transform: rotateX(42deg);
-  transform-style: preserve-3d;
-}
-
-/* Two-page spread */
-.f3d-spread {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  transform-style: preserve-3d;
-}
-.f3d-left-page {
-  flex: 1;
-  background: var(--parchment-ancient);
-  position: relative;
-  overflow: visible;
-  transform-style: preserve-3d;
-  transform-origin: right center;
-  transform: rotateY(15deg);
-  box-shadow: inset -6px 0 20px rgba(0,0,0,0.13);
-}
-.f3d-right-page {
-  flex: 1;
-  background: var(--parchment-transition);
-  position: relative;
-  overflow: visible;
-  transform-style: preserve-3d;
-  transform-origin: left center;
-  transform: rotateY(-15deg);
-  box-shadow: inset 6px 0 20px rgba(0,0,0,0.13);
-}
-
-/* Cover boards — siblings of pages, placed before them in DOM so pages render on top.
-   Each board mirrors its page's rotateY so the cover follows the V shape. */
-.f3d-board {
-  position: absolute;
-  background: var(--cover-color);
-  pointer-events: none;
-  top: -8px;
-  bottom: -28px;
-}
-.f3d-board-l {
-  left: -24px;
-  width: calc(50% + 24px);
-  transform-origin: 100% 50%;
-  transform: rotateY(15deg);
-}
-.f3d-board-r {
-  left: 50%;
-  width: calc(50% + 24px);
-  transform-origin: 0% 50%;
-  transform: rotateY(-15deg);
-}
-
-/* Spine strip in center */
-.f3d-spine {
-  position: absolute;
-  top: 0; left: 50%;
-  width: 10px; height: 100%;
-  transform: translateX(-50%);
-  background: linear-gradient(180deg,
-    var(--spine-dark) 0%,
-    var(--kintsugi-gold) 30%,
-    var(--spine-gold) 50%,
-    var(--kintsugi-gold) 70%,
-    var(--spine-dark) 100%
-  );
-  z-index: 10;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-
-/* Base class for all pop-up elements — fold up from page surface */
-.f3d-pop {
-  position: absolute;
-  transform-origin: bottom center;
-  transform: rotateX(90deg);
-  transform-style: preserve-3d;
-  transition: transform 0.85s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.f3d-book.open .f3d-pop         { transform: rotateX(0deg); }
-/* Standees always paint in front of the arch via explicit translateZ */
-.f3d-book.open .f3d-standee     { transform: rotateX(0deg) translateZ(8px); }
-.f3d-book.open .f3d-svg-standee { transform: rotateX(0deg) translateZ(6px); }
-
-
-/* ============================================================
-   PHOTO STANDEES — all four women, spread across full page
-   ============================================================ */
-.f3d-standee {
-  position: absolute;
-  background-size: cover;
-  background-position: center top;
-  border-radius: 4px 4px 0 0;
-  overflow: hidden;
-  box-shadow: 3px 0 18px rgba(0,0,0,0.6), -1px 0 0 rgba(255,255,255,0.12);
-}
-.f3d-std-name {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(0,0,0,0.52);
-  color: #d4a96a;
-  font-family: var(--font-serif);
-  font-size: 7.5px;
-  font-style: italic;
-  text-align: center;
-  padding: 3px 2px 4px;
-  letter-spacing: 0.6px;
-}
-/* LEFT PAGE — Chauvin tall left, Switzer mid-right */
-.f3d-std-1 { bottom: 0; left: 18px;  width: 92px;  height: 245px; transition-delay: 1.38s; } /* Chauvin  */
-.f3d-std-2 { bottom: 0; left: 170px; width: 82px;  height: 210px; transition-delay: 1.82s; } /* Switzer  */
-/* RIGHT PAGE — Curie tall left, Hathaway tallest right */
-.f3d-std-3 { bottom: 0; left: 10px;  width: 90px;  height: 235px; transition-delay: 2.0s;  } /* Curie    */
-.f3d-std-4 { bottom: 0; left: 182px; width: 90px;  height: 255px; transition-delay: 2.45s; } /* Hathaway */
-
-/* ============================================================
-   SVG ICON STANDEES — floating anywhere on the page
-   ============================================================ */
-.f3d-svg-standee {
-  position: absolute;
-  background: rgba(107, 45, 139, 0.07);
-  border: 1px solid rgba(212, 169, 106, 0.3);
-  border-radius: 4px 4px 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 6px 4px 3px;
-}
-.f3d-icon-label {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 7px;
-  color: var(--ink-brown-light);
-  letter-spacing: 1px;
-  margin-top: 3px;
-}
-/* floats in upper-middle of each page, pop up from mid-page */
-.f3d-svg-law  { top: 38px;  left: 118px; width: 60px; height: 110px; transition-delay: 1.18s; }
-.f3d-svg-run  { top: 75px;  left: 204px; width: 48px; height: 96px;  transition-delay: 1.60s; }
-.f3d-svg-atom { top: 34px;  left: 108px; width: 70px; height: 115px; transition-delay: 2.18s; }
-.f3d-svg-mic  { top: 68px;  left: 196px; width: 52px; height: 100px; transition-delay: 2.32s; }
-
-/* ============================================================
-   PAGE LABELS
-   ============================================================ */
-.f3d-pg-label {
-  position: absolute;
-  top: 14px;
-  font-family: var(--font-serif);
-  font-size: 8.5px;
-  color: var(--ink-brown-light);
-  opacity: 0.5;
-  letter-spacing: 1.2px;
-  font-style: italic;
-  pointer-events: none;
-}
-.f3d-pg-label-l { right: 10px; text-align: right; }
-.f3d-pg-label-r { left:  10px; text-align: left;  }
-
-/* ============================================================
-   CONFETTI PARTICLES — float in background when scene active
-   ============================================================ */
-.f3d-confetti {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 1;
-}
-.f3d-dot {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0;
-}
-.f3d-dot-star {
-  border-radius: 0;
-  background: transparent !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-/* Finale scene — start animation when active */
-#finale-3d-scene.active .f3d-dot {
-  animation-name: f3d-confetti-float;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-@keyframes f3d-confetti-float {
-  0%   { opacity: 0;    transform: translateY(0)     rotate(0deg);   }
-  18%  { opacity: 0.8; }
-  82%  { opacity: 0.4; }
-  100% { opacity: 0;    transform: translateY(-80px) rotate(400deg); }
-}
-
-/* Floating gems that drift upward when book is open */
-.f3d-gem {
-  position: absolute;
-  color: var(--spine-gold);
-  pointer-events: none;
-  opacity: 0;
-  font-size: 14px;
-}
-.f3d-book.open .f3d-gem { animation: f3d-gem-rise 2.8s ease-in-out infinite; }
-.f3d-g1 { top: 8px;  left: 30px;   animation-delay: 0.4s;  font-size: 17px; color: var(--spine-gold); }
-.f3d-g2 { top: 6px;  right: 30px;  animation-delay: 1.0s;  font-size: 12px; }
-.f3d-g3 { top: 10px; left: 210px;  animation-delay: 1.6s;  font-size: 11px; color: var(--kintsugi-gold); }
-.f3d-g4 { top: 8px;  right: 210px; animation-delay: 2.2s;  font-size: 19px; color: var(--kintsugi-gold); }
-
-@keyframes f3d-gem-rise {
-  0%   { opacity: 0;   transform: translateY(0)    rotateZ(0deg); }
-  20%  { opacity: 0.9; }
-  80%  { opacity: 0.35; }
-  100% { opacity: 0;   transform: translateY(-80px) rotateZ(360deg); }
-}
-
-/* Bottom caption / UI */
-.f3d-caption-bar {
-  position: absolute;
-  bottom: 36px; left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  opacity: 0;
-  transition: opacity 1s ease 2.6s;
-  z-index: 600;
-  white-space: nowrap;
-}
-#finale-3d-scene.active .f3d-caption-bar { opacity: 1; }
-.f3d-quote {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 18px;
-  color: var(--spine-gold);
-  letter-spacing: 1.5px;
-  margin-bottom: 14px;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.7);
-}
-
-/* ============================================================
-   TRIGGER BUTTON — pops up inside finale page after kintsugi
-   ============================================================ */
-.finale-popup-trigger {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 13px;
-  color: rgba(var(--spine-gold-rgb), 0.72);
-  background: none;
-  border: 1px solid rgba(var(--spine-gold-rgb), 0.28);
-  padding: 8px 20px;
-  border-radius: 2px;
-  cursor: pointer;
-  letter-spacing: 1px;
-  margin-top: 18px;
-  opacity: 0;
-  transform: scaleY(0);
-  transform-origin: bottom center;
-  transition: opacity 0.5s ease,
-              transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-              color 0.2s ease,
-              border-color 0.2s ease;
-  display: block;
-  width: 100%;
-}
-.finale-popup-trigger.visible { opacity: 1; transform: scaleY(1); }
-.finale-popup-trigger:hover   { color: var(--spine-gold); border-color: rgba(var(--spine-gold-rgb), 0.55); }
-
-
-/* ============================================================
-   RECOMMENCER BUTTON inside the 3D pop-up book overlay
-   ============================================================ */
-.f3d-recommencer-btn {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 15px;
-  color: rgba(var(--spine-gold-rgb), 0.85);
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(var(--spine-gold-rgb), 0.38);
-  padding: 10px 36px;
-  border-radius: 2px;
-  cursor: pointer;
-  letter-spacing: 1.5px;
-  margin-top: 12px;
-  transition: color 0.22s ease, border-color 0.22s ease, background 0.22s ease;
-  display: block;
-}
-.f3d-recommencer-btn:hover {
-  color: var(--spine-gold);
-  border-color: rgba(var(--spine-gold-rgb), 0.7);
-  background: rgba(var(--spine-gold-rgb), 0.1);
-}
-
-/* ============================================================
-   PAGE BASE — page-stack thickness inside each page,
-   follows the V tilt of its parent page automatically.
-   ============================================================ */
-.f3d-page-base {
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 100%; height: 44px;
-  transform-origin: 50% 100%;
-  transform: rotateX(90deg);
-  background: repeating-linear-gradient(
-    to right,
-    rgba(255, 252, 238, 0.98)  0px,
-    rgba(182, 164, 134, 0.85)  1.5px,
-    rgba(250, 246, 234, 0.95)  3px
-  );
+  top: 0; left: 0;
+  width: 200px; height: 275px;
   pointer-events: none;
   z-index: 5;
 }
+
+/* Zone interaction nom */
+.finale-input-wrap {
+  margin-top: 14px;
+  text-align: center;
+  padding-top: 14px;
+  position: relative;
+  border-top: 1px solid rgba(var(--kintsugi-gold-rgb), 0.35);
+}
+.finale-input-wrap::before {
+  content: '◆';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: var(--kintsugi-gold);
+  background: #fff;
+  padding: 0 5px;
+}
+.finale-input-label {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--kintsugi-gold);
+  margin-bottom: 8px;
+  letter-spacing: 0.01em;
+}
+.finale-input-row   { display: flex; gap: 6px; justify-content: center; align-items: center; }
+
+.finale-name-input {
+  font-family: var(--font-serif);
+  font-size: 12px;
+  color: var(--ink-brown);
+  background: rgba(var(--kintsugi-gold-rgb), 0.06);
+  border: 1px solid rgba(var(--kintsugi-gold-rgb), 0.4);
+  border-radius: 2px;
+  padding: 5px 10px;
+  outline: none;
+  width: 148px;
+  transition: border-color 0.3s ease;
+}
+.finale-name-input:focus    { border-color: var(--kintsugi-gold); }
+.finale-name-input:disabled { opacity: 0.5; }
+
+.finale-name-btn {
+  font-size: 13px;
+  color: var(--kintsugi-gold);
+  background: transparent;
+  border: 1px solid rgba(var(--kintsugi-gold-rgb), 0.4);
+  border-radius: 2px;
+  padding: 5px 9px;
+  cursor: pointer;
+  font-family: var(--font-serif);
+  transition: background 0.2s ease;
+}
+.finale-name-btn:hover:not(:disabled) { background: rgba(var(--kintsugi-gold-rgb), 0.15); }
+.finale-name-btn:disabled             { opacity: 0.4; cursor: default; }
+
+/* Nom ajouté dans la liste gauche */
+.finale-new-name         { display: block; color: var(--kintsugi-gold); font-style: italic; opacity: 0; transition: opacity 0.8s ease; }
+.finale-new-name.visible { opacity: 1; }
+
+/* Pulsation de la ligne "Et toutes celles…" quand le champ apparaît */
+@keyframes finale-em-glow {
+  0%, 100% { color: var(--ink-brown-light); text-shadow: none; }
+  50%       { color: var(--kintsugi-gold);  text-shadow: 0 0 10px rgba(var(--kintsugi-gold-rgb), 0.35); }
+}
+.finale-em-pulse { animation: finale-em-glow 1.8s ease 0.4s 2; }

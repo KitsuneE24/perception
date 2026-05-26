@@ -13,14 +13,14 @@ const SVG_HATHAWAY = `<img src="assets/images/icon/moving.png"      class="icon-
 /* ============================================================
    PAGES — 10 spreads:
    0  Cover
-   1  Bio Marie Curie       (left: photo / right: quote)
-   2  Transition Curie→Chauvin  (both: popup SVGs)
-   3  Bio Jeanne Chauvin
-   4  Transition Chauvin→Switzer
+   1  Bio Jeanne Chauvin     (left: photo / right: quote)
+   2  Transition Chauvin → Curie   (both: popup icons)
+   3  Bio Marie Curie
+   4  Transition Curie → Switzer
    5  Bio Kathrine Switzer
-   6  Transition Anne Hathaway
+   6  Transition Switzer → Hathaway
    7  Bio Anne Hathaway
-   8  Transition Anne Hathaway→Finale
+   8  Transition Hathaway → Finale
    9  Finale
    ============================================================ */
 

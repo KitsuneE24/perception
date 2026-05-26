@@ -130,9 +130,10 @@ function initTurnJs() {
     autoCenter:   true,
     display:      'double',
     acceleration: true,
-    gradients:    true,
-    elevation:    50,
+    gradients:    false,
+    elevation:    0,
     corners:      'all',
+    page:         2,
     when: {
       turning: function() {
         // Collapse visible popups as the page starts to turn
@@ -170,9 +171,6 @@ function initTurnJs() {
       }
     }
   });
-
-  // Open straight to the first spread (blank left + quote right)
-  $('#flipbook').turn('page', 2);
 
   // Animate popups on the opening spread
   $('.p2, .p3').find('.popup-element').each(function(i) {
@@ -280,7 +278,7 @@ function iconWithLabel(svgHtml, label) {
 function transitionLeftHTML(page) {
   return `
     <div class="popup-area">
-      <div class="popup-element popup-icon-word">
+      <div class="popup-element popup-icon-word t-page-left">
         ${page.svgLeft}
         ${page.labelLeft ? `<span class="popup-big-word">${page.labelLeft}</span>` : ''}
       </div>
@@ -296,7 +294,7 @@ function finaleLeftHTML() {
         Marie Curie · Sciences · 1911<br>
         Kathrine Switzer · Sport · 1967<br>
         Anne Hathaway · Cinéma · 2026<br>
-        <em>Et toutes celles et ceux dont on n'a pas encore écrit le nom.</em>
+        <em> Et toutes celles et ceux dont on n'a pas encore écrit le nom.</em>
       </div>
       <div class="finale-central-message">
         Ces exemples témoignent d’évolutions concrètes : les femmes ont progressivement accédé à des espaces autrefois fermés dans le droit, la science ou le sport. Les dynamiques en présence ont elles aussi évolué, en lien avec l’ouverture progressive des institutions et des pratiques sociales.  
@@ -343,7 +341,7 @@ function bioRightHTML(page) {
 function transitionRightHTML(page) {
   return `
     <div class="popup-area">
-      <div class="popup-element popup-icon-word">
+      <div class="popup-element popup-icon-word t-page-right">
         ${page.svgRight}
         ${page.labelRight ? `<span class="popup-big-word">${page.labelRight}</span>` : ''}
       </div>
@@ -388,6 +386,7 @@ function finaleRightHTML() {
           <path class="kintsugi-crack" id="crack19" d="M113 92 L84 66 L56 46"/>
           <path class="kintsugi-crack" id="crack20" d="M110 150 L111 222 L109 292"/>
         </svg>
+        <canvas id="gold-canvas" class="gold-canvas"></canvas>
       </div>
       <div class="finale-text-container" id="finale-text">
         <div class="finale-line1">La perception se forge.</div>
@@ -396,7 +395,13 @@ function finaleRightHTML() {
         <div class="finale-question" id="finale-question" style="opacity:0;">
           Les perceptions évoluent et les réalités continuent de se transformer.
         </div>
-        <button class="finale-popup-trigger" id="finale-popup-trigger">✦ Voir la suite</button>
+      </div>
+      <div class="finale-input-wrap" id="finale-input-wrap" style="opacity:0;">
+        <p class="finale-input-label">Et votre nom dans ce récit ?</p>
+        <div class="finale-input-row">
+          <input type="text" id="finale-name-input" class="finale-name-input" placeholder="Nom Prénom" maxlength="40">
+          <button id="finale-name-btn" class="finale-name-btn">✦</button>
+        </div>
       </div>
     </div>`;
 }

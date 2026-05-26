@@ -2,7 +2,7 @@
 
 Livre pop-up numérique interactif — HTML / CSS / JavaScript.
 
-Une œuvre sur la perception des femmes dans l'espace public, à travers quatre parcours réels, quatre époques, quatre domaines.
+Une œuvre sur la perception des femmes dans l'espace public, à travers quatre parcours réels, quatre époques, quatre domaines. Ce n'est pas une dénonciation — c'est une célébration du chemin parcouru.
 
 ## Structure narrative
 
@@ -17,16 +17,14 @@ Une œuvre sur la perception des femmes dans l'espace public, à travers quatre 
 | 6 | Transition Switzer → Hathaway (icônes animées) |
 | 7 | Bio Anne Hathaway · Cinéma · 2026 |
 | 8 | Transition Hathaway → Finale (icônes animées) |
-| 9 | Finale — animation kintsugi → livre pop-up 3D |
+| 9 | Finale — animation kintsugi + invitation au récit |
 
-Chaque bio occupe deux pages : photo plein-format (gauche) + citation biaisée et décodage (droite). Les spreads de transition affichent deux icônes animées en pop-up, une par page. La page finale enchaîne deux séquences : l'animation kintsugi puis une scène de livre pop-up 3D.
+Chaque bio occupe deux pages : photo plein-format (gauche) + citation biaisée et décodage (droite). Les spreads de transition affichent deux icônes animées en pop-up, une par page.
 
 ## Séquence finale (spread 9)
 
-1. L'animation kintsugi dessine des fissures dorées sur la couverture du livre, le texte final apparaît progressivement.
-2. Un bouton « ✦ Voir la suite » surgit depuis la page (animation pop-up).
-3. Le clic déclenche une scène plein-écran : un livre pop-up 3D vu du dessus s'ouvre — les couvertures s'écartent, des silhouettes et icônes surgissent des pages comme des figurines de papier.
-4. Un bouton « Recommencer » ramène au début du livre.
+1. L'animation kintsugi dessine des fissures dorées sur la couverture du livre ; le texte final apparaît progressivement.
+2. La question « Et votre nom dans ce récit ? » invite le visiteur à ajouter son nom à la liste affichée sur la page gauche.
 
 ## Fichiers
 
@@ -36,13 +34,13 @@ css/
   base.css          — variables design, reset, scène
   book-intro.css    — animation 3D du livre à l'ouverture
   flipbook.css      — turn.js, pages bio, couverture
-  finale.css        — kintsugi, bouton trigger, scène pop-up 3D
+  finale.css        — kintsugi, zone interaction nom
   navigation.css    — barre de dots et compteur de spread
 js/
   data.js           — illustrations PNG + tableau pages[]
   book-intro.js     — ouverture du livre 3D
   flipbook.js       — turn.js init, HTML des pages, navigation clavier/clic
-  finale.js         — kintsugi, showPopupBook, resetKintsugi, Recommencer
+  finale.js         — wireFinale, playKintsugi, playGoldParticles
   turn.min.js       — bibliothèque flip-page (turn.js v4)
 assets/images/
   bio/
@@ -78,4 +76,4 @@ Ouvrir `index.html` dans un navigateur. Aucune dépendance à installer — jQue
 - **Jeanne Chauvin** — RetroNews / BNF · Wikipedia FR · village-justice.com
 - **Marie Curie** — Nobel Prize archives · Nature (1911) · Wikiquote FR
 - **Kathrine Switzer** — ESPN · NPR · kathrineswitzer.com
-- **Anne Hathaway** — ONU, Journée internationale des droits des femmes 2026 : https://youtu.be/uidGNIp-nn4?t=174
+- **Anne Hathaway** — ONU, Journée internationale des droits des femmes 2026
