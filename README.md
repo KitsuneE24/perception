@@ -1,5 +1,5 @@
 # Perception
-[https://perception0526.netlify.app](url)
+https://perception0526.netlify.app
 
 Livre pop-up numérique interactif — HTML / CSS / JavaScript.
 
